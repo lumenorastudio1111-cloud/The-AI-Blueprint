@@ -1,0 +1,418 @@
+{
+  "meta": {
+    "platform": "Zapier",
+    "purpose": "Connect all funnel touchpoints — lead magnet opt-in, product purchases, email sequences, social scheduling, and CRM updates — into a single automated system.",
+    "estimated_monthly_tasks": 2000,
+    "recommended_plan": "Zapier Professional ($49/mo) — supports multi-step Zaps and Filters",
+    "last_updated": "2025-06-15"
+  },
+
+  "zaps": [
+
+    {
+      "id": "ZAP_01",
+      "name": "Lead Magnet → HubSpot Contact + Welcome Email",
+      "status": "priority",
+      "trigger": {
+        "app": "HubSpot Forms",
+        "event": "New Form Submission",
+        "form": "Lead Magnet Opt-In (lead-magnet.html)",
+        "setup_note": "Create HubSpot form for lead-magnet.html. Use the HubSpot embed code OR use this Zap with a Webhooks trigger if using the JS fetch method."
+      },
+      "actions": [
+        {
+          "step": 1,
+          "app": "HubSpot",
+          "action": "Create or Update Contact",
+          "fields": {
+            "email": "{{trigger.email}}",
+            "firstname": "{{trigger.firstname}}",
+            "lifecyclestage": "lead",
+            "lead_source": "website",
+            "hs_lead_status": "NEW"
+          }
+        },
+        {
+          "step": 2,
+          "app": "HubSpot",
+          "action": "Enrol Contact in Workflow",
+          "workflow": "SEQ_01_LEAD_MAGNET_WELCOME",
+          "note": "Create this workflow in HubSpot > Automation > Workflows"
+        },
+        {
+          "step": 3,
+          "app": "Google Sheets (optional)",
+          "action": "Add Row",
+          "sheet": "Lead Tracker",
+          "fields": {
+            "date": "{{zap_meta.timestamp}}",
+            "email": "{{trigger.email}}",
+            "name": "{{trigger.firstname}}",
+            "source": "lead-magnet",
+            "status": "new"
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "ZAP_02",
+      "name": "Gumroad Purchase ($37) → HubSpot Customer + Buyer Sequence",
+      "status": "priority",
+      "trigger": {
+        "app": "Gumroad",
+        "event": "New Sale",
+        "product": "The AI Blueprint (hltwgb)",
+        "setup_note": "Connect your Gumroad account to Zapier. Use the Gumroad New Sale trigger."
+      },
+      "actions": [
+        {
+          "step": 1,
+          "app": "HubSpot",
+          "action": "Create or Update Contact",
+          "fields": {
+            "email": "{{trigger.email}}",
+            "firstname": "{{trigger.full_name.split(' ')[0]}}",
+            "lastname": "{{trigger.full_name.split(' ')[1]}}",
+            "lifecyclestage": "customer",
+            "hs_lead_status": "OPEN_DEAL"
+          }
+        },
+        {
+          "step": 2,
+          "app": "HubSpot",
+          "action": "Create Deal",
+          "fields": {
+            "dealname": "Blueprint Purchase — {{trigger.email}}",
+            "amount": "37",
+            "pipeline": "default",
+            "dealstage": "closedwon",
+            "closedate": "{{zap_meta.timestamp}}"
+          }
+        },
+        {
+          "step": 3,
+          "app": "HubSpot",
+          "action": "Remove from Workflow",
+          "workflow": "SEQ_01_LEAD_MAGNET_WELCOME",
+          "note": "Stop welcome sequence if buyer was already a lead"
+        },
+        {
+          "step": 4,
+          "app": "HubSpot",
+          "action": "Enrol Contact in Workflow",
+          "workflow": "SEQ_02_BLUEPRINT_BUYER_ONBOARD"
+        },
+        {
+          "step": 5,
+          "app": "Slack (optional)",
+          "action": "Send Message",
+          "channel": "#sales",
+          "message": "🎉 New Blueprint sale! $37 from {{trigger.email}}"
+        }
+      ]
+    },
+
+    {
+      "id": "ZAP_03",
+      "name": "Gumroad Purchase ($197) → HubSpot Pro Customer + Pro Sequence",
+      "status": "priority",
+      "trigger": {
+        "app": "Gumroad",
+        "event": "New Sale",
+        "product": "The AI Blueprint: Pro Pack (ai-blueprint-pro)",
+        "setup_note": "Use a Filter step to separate Pro Pack sales from Blueprint sales by product ID."
+      },
+      "actions": [
+        {
+          "step": 1,
+          "app": "HubSpot",
+          "action": "Create or Update Contact",
+          "fields": {
+            "email": "{{trigger.email}}",
+            "firstname": "{{trigger.full_name.split(' ')[0]}}",
+            "lifecyclestage": "customer",
+            "hs_lead_status": "OPEN_DEAL"
+          }
+        },
+        {
+          "step": 2,
+          "app": "HubSpot",
+          "action": "Create Deal",
+          "fields": {
+            "dealname": "Pro Pack Purchase — {{trigger.email}}",
+            "amount": "197",
+            "pipeline": "default",
+            "dealstage": "closedwon",
+            "closedate": "{{zap_meta.timestamp}}"
+          }
+        },
+        {
+          "step": 3,
+          "app": "HubSpot",
+          "action": "Enrol Contact in Workflow",
+          "workflow": "SEQ_03_PRO_PACK_BUYER"
+        },
+        {
+          "step": 4,
+          "app": "Calendly",
+          "action": "Create Invitee — No (manual)",
+          "note": "Strategy call booking link is included in SEQ_03 Email 1. No automation needed — buyer books via Calendly link in email."
+        },
+        {
+          "step": 5,
+          "app": "Slack (optional)",
+          "action": "Send Message",
+          "channel": "#sales",
+          "message": "🚀 Pro Pack sale! $197 from {{trigger.email}} — schedule their strategy call."
+        }
+      ]
+    },
+
+    {
+      "id": "ZAP_04",
+      "name": "Consulting Form Submission → HubSpot Deal + Qualification Stage",
+      "status": "priority",
+      "trigger": {
+        "app": "HubSpot Forms",
+        "event": "New Form Submission",
+        "form": "Consulting Inquiry Form (consulting.html)",
+        "setup_note": "Create a HubSpot form for the consulting inquiry. Map engagement_interest as a contact property."
+      },
+      "actions": [
+        {
+          "step": 1,
+          "app": "HubSpot",
+          "action": "Create or Update Contact",
+          "fields": {
+            "email": "{{trigger.email}}",
+            "firstname": "{{trigger.firstname}}",
+            "lastname": "{{trigger.lastname}}",
+            "company": "{{trigger.company}}",
+            "jobtitle": "{{trigger.jobtitle}}",
+            "lifecyclestage": "salesqualifiedlead",
+            "hs_lead_status": "NEW"
+          }
+        },
+        {
+          "step": 2,
+          "app": "HubSpot",
+          "action": "Create Deal",
+          "fields": {
+            "dealname": "Consulting Inquiry — {{trigger.company}} ({{trigger.engagement_interest}})",
+            "pipeline": "default",
+            "dealstage": "3604367075",
+            "amount": "{{engagement_interest_value}}",
+            "note": "Map engagement_interest to amount: readiness=$1500, roadmap=$4500, workshop=$7500, advisory=$2500/mo"
+          }
+        },
+        {
+          "step": 3,
+          "app": "Gmail",
+          "action": "Send Email",
+          "to": "hello@lumenora.com",
+          "subject": "New consulting inquiry: {{trigger.company}} — {{trigger.engagement_interest}}",
+          "body": "Name: {{trigger.firstname}} {{trigger.lastname}}\nCompany: {{trigger.company}}\nRole: {{trigger.jobtitle}}\nInterest: {{trigger.engagement_interest}}\nChallenge: {{trigger.ai_challenge}}\n\nContact: {{trigger.email}}\n\nReply within 1 business day."
+        },
+        {
+          "step": 4,
+          "app": "Google Calendar",
+          "action": "Create Event (reminder)",
+          "title": "Follow up: {{trigger.firstname}} {{trigger.lastname}} — {{trigger.company}}",
+          "date": "next business day",
+          "description": "Consulting inquiry follow-up. Email: {{trigger.email}}. Interest: {{trigger.engagement_interest}}"
+        }
+      ]
+    },
+
+    {
+      "id": "ZAP_05",
+      "name": "Consulting Deal Closed Won → Thank You Email + Onboarding",
+      "status": "secondary",
+      "trigger": {
+        "app": "HubSpot",
+        "event": "Deal Stage Changed to Closed Won",
+        "filter": "pipeline = default AND amount > 1000"
+      },
+      "actions": [
+        {
+          "step": 1,
+          "app": "HubSpot",
+          "action": "Update Contact Lifecycle Stage",
+          "value": "customer"
+        },
+        {
+          "step": 2,
+          "app": "Gmail",
+          "action": "Send Email",
+          "to": "{{contact.email}}",
+          "template": "consulting-welcome",
+          "note": "Create a consulting welcome email template in Gmail or HubSpot"
+        },
+        {
+          "step": 3,
+          "app": "Slack (optional)",
+          "action": "Send Message",
+          "channel": "#wins",
+          "message": "💰 Consulting engagement closed! {{deal.amount}} from {{company.name}}"
+        }
+      ]
+    },
+
+    {
+      "id": "ZAP_06",
+      "name": "New Blog Post Published → Social Queue (Buffer/Hootsuite)",
+      "status": "secondary",
+      "trigger": {
+        "app": "Shopify",
+        "event": "New Blog Post Published",
+        "blog": "Lumenora Blog",
+        "setup_note": "Connect your Shopify blog. This fires whenever you publish a new blog post."
+      },
+      "actions": [
+        {
+          "step": 1,
+          "app": "Buffer",
+          "action": "Add to Queue — Threads",
+          "text": "New post: {{trigger.title}}\n\n{{trigger.excerpt}}\n\nRead more → {{trigger.url}}\n\n#AICareers #FutureOfWork #AITools",
+          "profile": "Threads profile"
+        },
+        {
+          "step": 2,
+          "app": "Buffer",
+          "action": "Add to Queue — LinkedIn",
+          "text": "New post on AI career strategy:\n\n{{trigger.title}}\n\n{{trigger.excerpt}}\n\n→ {{trigger.url}}",
+          "profile": "LinkedIn profile"
+        },
+        {
+          "step": 3,
+          "app": "Tailwind (Pinterest) — manual",
+          "note": "Create a Pinterest pin for the blog post in Canva, then schedule in Tailwind. Target: publish pin within 24 hours of blog post."
+        }
+      ]
+    },
+
+    {
+      "id": "ZAP_07",
+      "name": "Gumroad Refund → HubSpot Status Update + Pause Emails",
+      "status": "secondary",
+      "trigger": {
+        "app": "Gumroad",
+        "event": "New Refund"
+      },
+      "actions": [
+        {
+          "step": 1,
+          "app": "HubSpot",
+          "action": "Update Contact",
+          "fields": {
+            "hs_lead_status": "UNQUALIFIED",
+            "lifecyclestage": "lead"
+          }
+        },
+        {
+          "step": 2,
+          "app": "HubSpot",
+          "action": "Remove from Workflow",
+          "workflow": "SEQ_02_BLUEPRINT_BUYER_ONBOARD"
+        },
+        {
+          "step": 3,
+          "app": "Gmail",
+          "action": "Send Email (internal)",
+          "to": "hello@lumenora.com",
+          "subject": "Refund processed — {{trigger.email}}",
+          "body": "Refund from {{trigger.email}} for {{trigger.product_name}}. Removed from buyer sequence."
+        }
+      ]
+    },
+
+    {
+      "id": "ZAP_08",
+      "name": "Monthly Revenue Report → Google Sheets Dashboard",
+      "status": "nice-to-have",
+      "trigger": {
+        "app": "Schedule by Zapier",
+        "event": "Every 1st of Month at 08:00 ET"
+      },
+      "actions": [
+        {
+          "step": 1,
+          "app": "Gumroad",
+          "action": "Get Sales (last 30 days)",
+          "filter": "all products"
+        },
+        {
+          "step": 2,
+          "app": "HubSpot",
+          "action": "Get New Contacts (last 30 days)"
+        },
+        {
+          "step": 3,
+          "app": "Google Sheets",
+          "action": "Update Row",
+          "sheet": "Monthly Revenue Dashboard",
+          "fields": {
+            "month": "{{month}}",
+            "blueprint_revenue": "{{gumroad.total_blueprint}}",
+            "pro_pack_revenue": "{{gumroad.total_pro_pack}}",
+            "new_leads": "{{hubspot.new_contacts}}",
+            "new_customers": "{{hubspot.new_customers}}",
+            "consulting_pipeline": "manual entry"
+          }
+        }
+      ]
+    }
+  ],
+
+  "setup_checklist": {
+    "phase_1_immediate": [
+      { "task": "Create HubSpot form for lead-magnet.html and get Portal ID + Form GUID", "file": "lead-magnet.html", "line": "Replace YOUR_PORTAL_ID and YOUR_FORM_GUID" },
+      { "task": "Create HubSpot form for consulting.html and get Consulting Form GUID", "file": "consulting.html", "line": "Replace YOUR_CONSULTING_FORM_GUID" },
+      { "task": "Connect Gumroad to Zapier", "zaps": ["ZAP_02", "ZAP_03", "ZAP_07"] },
+      { "task": "Build ZAP_01 — Lead Magnet to HubSpot", "priority": "critical" },
+      { "task": "Build ZAP_02 — Gumroad $37 sale to HubSpot", "priority": "critical" },
+      { "task": "Build ZAP_04 — Consulting inquiry to HubSpot deal", "priority": "critical" }
+    ],
+    "phase_2_week_2": [
+      { "task": "Build ZAP_03 — Pro Pack sale to HubSpot" },
+      { "task": "Build ZAP_05 — Consulting deal closed won" },
+      { "task": "Create HubSpot email sequences (SEQ_01 through SEQ_04) — copy from email/hubspot-sequences.json" },
+      { "task": "Connect Buffer or Hootsuite for social scheduling" }
+    ],
+    "phase_3_week_4": [
+      { "task": "Build ZAP_06 — Blog post to social queue" },
+      { "task": "Set up Tailwind for Pinterest scheduling" },
+      { "task": "Build ZAP_07 — Refund handling" },
+      { "task": "Build ZAP_08 — Monthly revenue report" },
+      { "task": "Set up Google Sheets revenue dashboard" }
+    ]
+  },
+
+  "hubspot_workflows_to_create": [
+    {
+      "name": "SEQ_01_LEAD_MAGNET_WELCOME",
+      "trigger": "Contact enrolled via Zap (ZAP_01)",
+      "emails": "5 emails over 7 days — see email/hubspot-sequences.json",
+      "exit_condition": "Contact makes a purchase (lifecyclestage = customer)"
+    },
+    {
+      "name": "SEQ_02_BLUEPRINT_BUYER_ONBOARD",
+      "trigger": "Contact enrolled via Zap (ZAP_02)",
+      "emails": "4 emails over 14 days — see email/hubspot-sequences.json",
+      "exit_condition": "Contact purchases Pro Pack"
+    },
+    {
+      "name": "SEQ_03_PRO_PACK_BUYER",
+      "trigger": "Contact enrolled via Zap (ZAP_03)",
+      "emails": "3 emails over 10 days — see email/hubspot-sequences.json",
+      "exit_condition": "Consulting deal created"
+    },
+    {
+      "name": "SEQ_04_WEEKLY_NEWSLETTER",
+      "trigger": "Enrolled after SEQ_01 completes without purchase",
+      "schedule": "Weekly Tuesday 07:00 ET",
+      "notes": "Ongoing — no exit unless unsubscribe"
+    }
+  ]
+}

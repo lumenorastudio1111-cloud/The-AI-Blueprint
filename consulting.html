@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Strategy Consulting — Lumenora | $1,500–$15,000 Engagements</title>
+  <meta name="description" content="Work directly with Lumenora on AI strategy for your team or organisation. From readiness assessments to full implementation roadmaps. Limited availability.">
+  <meta name="robots" content="index, follow">
+
+  <meta property="og:title" content="AI Strategy Consulting — Lumenora">
+  <meta property="og:description" content="Bespoke AI strategy for ambitious teams. Readiness assessments, implementation roadmaps, team training. Limited availability.">
+  <meta property="og:type" content="website">
+
+  <!-- Schema: Service -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "AI Strategy Consulting",
+    "provider": { "@type": "Organization", "name": "Lumenora" },
+    "description": "Bespoke AI strategy consulting for professional teams and organisations — covering AI readiness assessments, implementation roadmaps, change management, and team training.",
+    "offers": [
+      { "@type": "Offer", "name": "AI Readiness Assessment", "price": "1500", "priceCurrency": "USD" },
+      { "@type": "Offer", "name": "AI Implementation Roadmap", "price": "4500", "priceCurrency": "USD" },
+      { "@type": "Offer", "name": "Team AI Training Workshop", "price": "7500", "priceCurrency": "USD" }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #060810;
+      --bg2: #0c0f1a;
+      --bg3: #111827;
+      --accent: #6c63ff;
+      --accent2: #a78bfa;
+      --accent3: #38bdf8;
+      --gold: #f4b942;
+      --text: #f0f0f0;
+      --muted: #94a3b8;
+      --border: rgba(108,99,255,0.18);
+      --glow: rgba(108,99,255,0.35);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .orb1 { width: 700px; height: 700px; background: radial-gradient(circle, rgba(108,99,255,0.12), transparent 70%); top: -200px; left: 50%; transform: translateX(-50%); }
+    .orb2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(56,189,248,0.08), transparent 70%); bottom: 200px; right: -100px; }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 16px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(6,8,16,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      background: linear-gradient(135deg, var(--accent2), var(--accent3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-link { color: var(--muted); text-decoration: none; font-size: 0.88rem; transition: color 0.2s; }
+    .nav-link:hover { color: var(--text); }
+
+    .nav-cta {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 0 20px var(--glow); }
+
+    main {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+    }
+
+    .hero-inner { max-width: 820px; }
+
+    .availability-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(244,185,66,0.1);
+      border: 1px solid rgba(244,185,66,0.3);
+      color: var(--gold);
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .avail-dot {
+      width: 7px; height: 7px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: blink 2s ease-in-out infinite;
+    }
+
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      line-height: 1.1;
+      margin-bottom: 22px;
+    }
+
+    .gtext-purple {
+      background: linear-gradient(135deg, var(--accent2), var(--accent3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .gtext-gold {
+      background: linear-gradient(135deg, var(--gold), #e8a020);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 620px;
+      margin: 0 auto 48px;
+      line-height: 1.75;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      color: #fff;
+      padding: 16px 40px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(108,99,255,0.4); }
+
+    .btn-secondary {
+      display: inline-block;
+      background: transparent;
+      color: var(--muted);
+      padding: 16px 32px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.12);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .btn-secondary:hover { color: var(--text); border-color: rgba(255,255,255,0.25); }
+
+    /* Trust row */
+    .trust-row {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      padding: 28px 24px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: rgba(12,15,26,0.5);
+    }
+
+    .trust-item {
+      text-align: center;
+    }
+
+    .trust-num {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent2), var(--accent3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: block;
+    }
+
+    .trust-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* Section */
+    section { padding: 96px 24px; }
+
+    .section-inner { max-width: 1000px; margin: 0 auto; }
+
+    .section-tag {
+      display: inline-block;
+      background: rgba(108,99,255,0.12);
+      border: 1px solid rgba(108,99,255,0.25);
+      color: var(--accent2);
+      padding: 4px 14px;
+      border-radius: 999px;
+      font-size: 0.73rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    h2.section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      margin-bottom: 14px;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 580px;
+      margin-bottom: 56px;
+    }
+
+    /* Services Grid */
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .service-card {
+      background: rgba(12,15,26,0.8);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 36px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .service-card:hover { border-color: rgba(108,99,255,0.4); transform: translateY(-3px); }
+
+    .service-card.featured {
+      border-color: rgba(244,185,66,0.35);
+      background: rgba(244,185,66,0.04);
+    }
+
+    .service-card.featured::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+    }
+
+    .service-featured-badge {
+      position: absolute;
+      top: 16px; right: 16px;
+      background: rgba(244,185,66,0.15);
+      border: 1px solid rgba(244,185,66,0.3);
+      color: var(--gold);
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .service-icon { font-size: 2rem; margin-bottom: 16px; display: block; }
+    .service-name { font-family: 'DM Serif Display', serif; font-size: 1.3rem; margin-bottom: 8px; }
+    .service-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.65; margin-bottom: 20px; }
+
+    .service-includes {
+      list-style: none;
+      margin-bottom: 24px;
+    }
+
+    .service-includes li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      padding: 5px 0;
+    }
+
+    .service-includes li::before {
+      content: '→';
+      color: var(--accent2);
+      flex-shrink: 0;
+    }
+
+    .service-price {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--gold);
+    }
+
+    .service-price-note {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* Wide card (full-width) */
+    .service-card-wide {
+      grid-column: 1 / -1;
+    }
+
+    .wide-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      align-items: center;
+    }
+
+    /* How it works */
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .process-step {
+      text-align: center;
+      padding: 28px 20px;
+      background: rgba(12,15,26,0.6);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      position: relative;
+    }
+
+    .step-num {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: rgba(108,99,255,0.15);
+      border: 1px solid rgba(108,99,255,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--accent2);
+      margin: 0 auto 16px;
+    }
+
+    .step-title { font-weight: 700; margin-bottom: 8px; font-size: 0.95rem; }
+    .step-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+
+    /* Testimonials */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
+
+    .testimonial {
+      background: rgba(12,15,26,0.7);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px;
+    }
+
+    .stars { color: var(--gold); font-size: 0.88rem; margin-bottom: 12px; }
+    .testimonial p { font-size: 0.9rem; color: #cbd5e1; line-height: 1.7; margin-bottom: 16px; font-style: italic; }
+    .reviewer-name { font-weight: 700; font-size: 0.85rem; }
+    .reviewer-role { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+
+    /* Inquiry Form */
+    .form-section {
+      background: rgba(12,15,26,0.9);
+      border: 1px solid rgba(108,99,255,0.25);
+      border-radius: 24px;
+      padding: 56px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent3));
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      align-items: start;
+    }
+
+    .form-left h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      margin-bottom: 14px;
+    }
+
+    .form-left p { color: var(--muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 24px; }
+
+    .form-feature {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      font-size: 0.88rem;
+      color: #cbd5e1;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .form-feature:last-child { border-bottom: none; }
+    .form-feature-dot { width: 8px; height: 8px; background: var(--accent2); border-radius: 50%; flex-shrink: 0; }
+
+    .inquiry-form { display: flex; flex-direction: column; gap: 14px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .form-field { display: flex; flex-direction: column; gap: 6px; }
+
+    .form-field label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    input, select, textarea {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 9px;
+      padding: 13px 16px;
+      color: var(--text);
+      font-size: 0.92rem;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(108,99,255,0.5);
+      box-shadow: 0 0 0 3px rgba(108,99,255,0.12);
+    }
+
+    input::placeholder, textarea::placeholder { color: #475569; }
+
+    select option { background: #0c0f1a; }
+
+    textarea { resize: vertical; min-height: 100px; }
+
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 16px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      font-family: 'Inter', sans-serif;
+      margin-top: 4px;
+    }
+
+    .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(108,99,255,0.4); }
+
+    .form-note {
+      font-size: 0.78rem;
+      color: #475569;
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    /* Success state */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 40px 0;
+    }
+
+    .success-circle {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: rgba(108,99,255,0.15);
+      border: 2px solid var(--accent2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 20px;
+    }
+
+    .form-success h3 { font-family: 'DM Serif Display', serif; font-size: 1.8rem; margin-bottom: 12px; }
+    .form-success p { color: var(--muted); }
+
+    /* Sticky CTA */
+    .sticky-cta {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 90;
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      color: #fff;
+      padding: 14px 24px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 8px 32px rgba(108,99,255,0.45);
+      transition: transform 0.2s;
+    }
+    .sticky-cta:hover { transform: translateY(-2px); }
+
+    @media (max-width: 768px) {
+      .services-grid, .process-steps, .testimonials-grid, .form-grid, .wide-inner { grid-template-columns: 1fr; }
+      .service-card-wide { grid-column: auto; }
+      .form-row { grid-template-columns: 1fr; }
+      nav { padding: 14px 20px; }
+      .form-section { padding: 32px 24px; }
+      .hero { min-height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+
+  <nav>
+    <span class="nav-logo">Lumenora</span>
+    <div class="nav-links">
+      <a href="/index.html" class="nav-link">Home</a>
+      <a href="/blog/ai-career-survival-guide.html" class="nav-link">Blog</a>
+      <a href="#inquiry" class="nav-cta">Apply for Consulting</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-inner">
+        <div class="availability-badge">
+          <span class="avail-dot"></span>
+          Accepting 4 clients per quarter
+        </div>
+        <h1>AI Strategy That Actually<br><span class="gtext-gold">Moves the Needle.</span></h1>
+        <p class="hero-sub">We work directly with ambitious teams and organisations to build AI-first workflows, assess readiness, and create implementation roadmaps that produce measurable outcomes — not slide decks.</p>
+        <div class="hero-ctas">
+          <a href="#inquiry" class="btn-primary">Apply for a Strategy Engagement →</a>
+          <a href="#services" class="btn-secondary">See what's included</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trust row -->
+    <div class="trust-row">
+      <div class="trust-item">
+        <span class="trust-num">1,200+</span>
+        <span class="trust-label">Professionals helped</span>
+      </div>
+      <div class="trust-item">
+        <span class="trust-num">5</span>
+        <span class="trust-label">Industries served</span>
+      </div>
+      <div class="trust-item">
+        <span class="trust-num">40%</span>
+        <span class="trust-label">Avg. productivity gain</span>
+      </div>
+      <div class="trust-item">
+        <span class="trust-num">90 days</span>
+        <span class="trust-label">Typical ROI timeline</span>
+      </div>
+    </div>
+
+    <!-- Services -->
+    <section id="services">
+      <div class="section-inner">
+        <span class="section-tag">Engagements</span>
+        <h2 class="section-title">Choose your level of support.</h2>
+        <p class="section-sub">Every engagement is scoped to your team's specific situation, goals, and timeline.</p>
+
+        <div class="services-grid">
+          <div class="service-card">
+            <span class="service-icon">🔍</span>
+            <div class="service-name">AI Readiness Assessment</div>
+            <p class="service-desc">A structured audit of your organisation's AI opportunity landscape — where you're vulnerable, where you can gain the most, and where to start.</p>
+            <ul class="service-includes">
+              <li>Role-by-role automation risk audit</li>
+              <li>Tool and workflow gap analysis</li>
+              <li>Prioritised opportunity matrix</li>
+              <li>Written report + 60-min debrief call</li>
+              <li>Quick-win action list for immediate implementation</li>
+            </ul>
+            <div class="service-price">$1,500</div>
+            <div class="service-price-note">One-time. Delivered in 2 weeks.</div>
+          </div>
+
+          <div class="service-card featured">
+            <span class="service-featured-badge">Most Requested</span>
+            <span class="service-icon">🗺️</span>
+            <div class="service-name">AI Implementation Roadmap</div>
+            <p class="service-desc">A complete 90-day AI strategy with tool selection, workflow redesign, prompt library, and change management plan — tailored to your team.</p>
+            <ul class="service-includes">
+              <li>Full readiness assessment (included)</li>
+              <li>Tool selection and integration plan</li>
+              <li>Custom prompt library for your team's roles</li>
+              <li>90-day week-by-week implementation calendar</li>
+              <li>Change management and adoption strategy</li>
+              <li>Monthly check-in calls for 90 days</li>
+            </ul>
+            <div class="service-price">$4,500</div>
+            <div class="service-price-note">One-time. 90-day engagement.</div>
+          </div>
+
+          <div class="service-card service-card-wide">
+            <div class="wide-inner">
+              <div>
+                <span class="service-icon">🎓</span>
+                <div class="service-name">Team AI Training Workshop</div>
+                <p class="service-desc">A half-day or full-day workshop to upskill an entire team — from AI fundamentals to hands-on prompt engineering and role-specific workflows. Delivered in-person or virtually.</p>
+                <div class="service-price" style="font-size: 1.4rem;">$7,500 – $15,000</div>
+                <div class="service-price-note">Depends on team size (up to 50) and format (virtual/in-person).</div>
+              </div>
+              <div>
+                <ul class="service-includes">
+                  <li>Pre-workshop AI readiness survey for all attendees</li>
+                  <li>Customised curriculum for your industry and roles</li>
+                  <li>Live RISEN prompt engineering session with practice exercises</li>
+                  <li>Role-specific AI playbooks distributed to each attendee</li>
+                  <li>Post-workshop 30-day implementation guide</li>
+                  <li>Follow-up Q&A session (2 weeks after)</li>
+                  <li>Manager's guide for sustaining AI adoption</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="service-card" style="background: rgba(108,99,255,0.06); border-color: rgba(108,99,255,0.25); margin-top: 0;">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+            <div>
+              <span class="service-icon">📅</span>
+              <div class="service-name">Ongoing AI Advisory</div>
+              <p class="service-desc" style="margin-bottom: 0;">Monthly strategy sessions + unlimited async support for teams actively scaling AI adoption.</p>
+            </div>
+            <div style="text-align: right; flex-shrink: 0;">
+              <div class="service-price">$2,500<span style="font-size: 1rem; color: var(--muted); font-weight: 400;">/month</span></div>
+              <div class="service-price-note">3-month minimum. Limited to 6 clients.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Process -->
+    <section style="padding: 0 24px 96px; background: rgba(12,15,26,0.4);">
+      <div class="section-inner" style="padding: 96px 0 0;">
+        <span class="section-tag">Process</span>
+        <h2 class="section-title">How it works.</h2>
+        <p class="section-sub">A structured 4-step path from first conversation to measurable results.</p>
+
+        <div class="process-steps">
+          <div class="process-step">
+            <div class="step-num">01</div>
+            <div class="step-title">Inquiry Call</div>
+            <p class="step-desc">30-minute conversation to understand your goals, team size, industry, and what success looks like.</p>
+          </div>
+          <div class="process-step">
+            <div class="step-num">02</div>
+            <div class="step-title">Scope Proposal</div>
+            <p class="step-desc">We send a tailored proposal within 48 hours outlining the engagement, deliverables, timeline, and investment.</p>
+          </div>
+          <div class="process-step">
+            <div class="step-num">03</div>
+            <div class="step-title">Engagement</div>
+            <p class="step-desc">Active work phase — auditing, strategising, building, and training. Weekly progress updates throughout.</p>
+          </div>
+          <div class="process-step">
+            <div class="step-num">04</div>
+            <div class="step-title">Handoff + Support</div>
+            <p class="step-desc">Full handoff of all deliverables. 30 days of async follow-up support included in every engagement.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section>
+      <div class="section-inner">
+        <span class="section-tag">Results</span>
+        <h2 class="section-title">What clients say.</h2>
+        <div class="testimonials-grid">
+          <div class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p>"The readiness assessment alone changed how we were thinking about AI. We went from 'let's try some tools' to 'here's our 90-day AI roadmap' in two weeks. Worth every dollar."</p>
+            <div class="reviewer-name">Rachel M.</div>
+            <div class="reviewer-role">VP Operations, Healthcare Technology</div>
+          </div>
+          <div class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p>"The team workshop was the best investment we made in Q1. Our content team went from AI-skeptical to AI-first in one day. The custom prompt library alone saved us 12 hours in the first week."</p>
+            <div class="reviewer-name">David K.</div>
+            <div class="reviewer-role">Head of Content, B2B SaaS</div>
+          </div>
+          <div class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p>"We were already using AI tools but had no coherent strategy. The implementation roadmap gave us structure and prioritisation. 90 days later, our team is genuinely more productive and we can measure it."</p>
+            <div class="reviewer-name">Priya S.</div>
+            <div class="reviewer-role">COO, Financial Services Firm</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Inquiry Form -->
+    <section id="inquiry">
+      <div class="section-inner">
+        <div class="form-section">
+          <div class="form-grid">
+            <div class="form-left">
+              <span class="section-tag">Apply</span>
+              <h2>Let's talk about your AI strategy.</h2>
+              <p>Fill out the form and we'll reach out within 1 business day to schedule a 30-minute introductory call. No commitment required at this stage.</p>
+
+              <div class="form-feature">
+                <span class="form-feature-dot"></span>
+                Response within 1 business day
+              </div>
+              <div class="form-feature">
+                <span class="form-feature-dot"></span>
+                No-obligation 30-min strategy call
+              </div>
+              <div class="form-feature">
+                <span class="form-feature-dot"></span>
+                Scoped proposal within 48 hours of call
+              </div>
+              <div class="form-feature">
+                <span class="form-feature-dot"></span>
+                Engagements from $1,500 to $15,000
+              </div>
+              <div class="form-feature">
+                <span class="form-feature-dot"></span>
+                Limited to 4 new clients per quarter
+              </div>
+            </div>
+
+            <div class="form-right">
+              <div id="form-view">
+                <form class="inquiry-form" onsubmit="handleInquiry(event)">
+                  <div class="form-row">
+                    <div class="form-field">
+                      <label>First name *</label>
+                      <input type="text" name="firstname" placeholder="Sarah" required>
+                    </div>
+                    <div class="form-field">
+                      <label>Last name *</label>
+                      <input type="text" name="lastname" placeholder="Thompson" required>
+                    </div>
+                  </div>
+                  <div class="form-field">
+                    <label>Work email *</label>
+                    <input type="email" name="email" placeholder="sarah@company.com" required>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-field">
+                      <label>Company / Organisation *</label>
+                      <input type="text" name="company" placeholder="Acme Corp" required>
+                    </div>
+                    <div class="form-field">
+                      <label>Your role *</label>
+                      <input type="text" name="jobtitle" placeholder="VP Operations" required>
+                    </div>
+                  </div>
+                  <div class="form-field">
+                    <label>Team size *</label>
+                    <select name="team_size" required>
+                      <option value="" disabled selected>Select team size</option>
+                      <option value="solo">Just me (solopreneur)</option>
+                      <option value="2-10">2–10 people</option>
+                      <option value="11-50">11–50 people</option>
+                      <option value="51-200">51–200 people</option>
+                      <option value="200+">200+ people</option>
+                    </select>
+                  </div>
+                  <div class="form-field">
+                    <label>Which engagement interests you?</label>
+                    <select name="engagement_interest">
+                      <option value="" disabled selected>Select an option</option>
+                      <option value="readiness">AI Readiness Assessment ($1,500)</option>
+                      <option value="roadmap">AI Implementation Roadmap ($4,500)</option>
+                      <option value="workshop">Team Training Workshop ($7,500–$15,000)</option>
+                      <option value="advisory">Ongoing AI Advisory ($2,500/month)</option>
+                      <option value="unsure">Not sure yet — need guidance</option>
+                    </select>
+                  </div>
+                  <div class="form-field">
+                    <label>What's your biggest AI challenge right now?</label>
+                    <textarea name="ai_challenge" placeholder="Tell us what you're trying to solve or achieve with AI..."></textarea>
+                  </div>
+                  <button type="submit" class="submit-btn">Submit Inquiry →</button>
+                  <p class="form-note">We respond to all inquiries within 1 business day.</p>
+                </form>
+              </div>
+
+              <div class="form-success" id="form-success">
+                <div class="success-circle">✓</div>
+                <h3>Inquiry received!</h3>
+                <p>We'll be in touch within 1 business day to schedule your introductory call.</p>
+                <p style="margin-top: 16px; font-size: 0.88rem; color: #475569;">While you wait — explore <a href="/upsell.html" style="color: var(--accent2);">The AI Blueprint Pro Pack</a> if you haven't yet.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <a href="#inquiry" class="sticky-cta">Apply for Consulting →</a>
+
+  <footer style="border-top: 1px solid var(--border); padding: 28px 48px; text-align: center; color: #475569; font-size: 0.82rem;">
+    <p>&copy; 2025 Lumenora. &nbsp;·&nbsp; <a href="/index.html" style="color: var(--muted);">Home</a> &nbsp;·&nbsp; <a href="/lead-magnet.html" style="color: var(--muted);">Free Checklist</a> &nbsp;·&nbsp; <a href="https://lumenora.gumroad.com/l/hltwgb" style="color: var(--muted);">Buy The Blueprint</a></p>
+  </footer>
+
+  <script>
+    function handleInquiry(e) {
+      e.preventDefault();
+      const data = new FormData(e.target);
+
+      // HubSpot form submission
+      const PORTAL_ID = 'YOUR_PORTAL_ID';
+      const FORM_GUID = 'YOUR_CONSULTING_FORM_GUID';
+
+      const payload = {
+        fields: [
+          { name: 'firstname', value: data.get('firstname') || '' },
+          { name: 'lastname', value: data.get('lastname') || '' },
+          { name: 'email', value: data.get('email') || '' },
+          { name: 'company', value: data.get('company') || '' },
+          { name: 'jobtitle', value: data.get('jobtitle') || '' },
+          { name: 'message', value: `Team size: ${data.get('team_size')} | Interest: ${data.get('engagement_interest')} | Challenge: ${data.get('ai_challenge')}` }
+        ],
+        context: { pageUri: window.location.href, pageName: 'Consulting Inquiry' }
+      };
+
+      fetch(`https://api.hsforms.com/submissions/v3/integration/submit/${PORTAL_ID}/${FORM_GUID}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).finally(() => {
+        document.getElementById('form-view').style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+      });
+    }
+  </script>
+</body>
+</html>

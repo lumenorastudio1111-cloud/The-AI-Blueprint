@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <!-- Landing Page / Product -->
+  <url>
+    <loc>https://lumenorastudio1111-cloud.github.io/The-AI-Blueprint/</loc>
+    <lastmod>2025-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Lead Magnet -->
+  <url>
+    <loc>https://lumenorastudio1111-cloud.github.io/The-AI-Blueprint/lead-magnet.html</loc>
+    <lastmod>2025-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Upsell Page -->
+  <url>
+    <loc>https://lumenorastudio1111-cloud.github.io/The-AI-Blueprint/upsell.html</loc>
+    <lastmod>2025-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Consulting Page -->
+  <url>
+    <loc>https://lumenorastudio1111-cloud.github.io/The-AI-Blueprint/consulting.html</loc>
+    <lastmod>2025-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog: AI Career Survival Guide -->
+  <url>
+    <loc>https://lumenorastudio1111-cloud.github.io/The-AI-Blueprint/blog/ai-career-survival-guide.html</loc>
+    <lastmod>2025-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Blog: RISEN Prompt Framework -->
+  <url>
+    <loc>https://lumenorastudio1111-cloud.github.io/The-AI-Blueprint/blog/risen-prompt-framework.html</loc>
+    <lastmod>2025-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Blog: ChatGPT vs Claude vs Gemini -->
+  <url>
+    <loc>https://lumenorastudio1111-cloud.github.io/The-AI-Blueprint/blog/chatgpt-vs-claude-vs-gemini.html</loc>
+    <lastmod>2025-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+</urlset>

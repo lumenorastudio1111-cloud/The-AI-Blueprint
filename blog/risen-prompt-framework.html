@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The RISEN Prompt Framework: Complete Guide for Professionals (2025)</title>
+  <meta name="description" content="RISEN is the 5-step prompt engineering framework that consistently produces better AI outputs. Role, Instructions, Steps, End goal, Narrow — explained with 12 copy-paste examples.">
+
+  <meta property="og:title" content="The RISEN Prompt Framework — Complete Guide">
+  <meta property="og:description" content="Stop getting generic AI outputs. RISEN is the framework professionals use to get consistently excellent results from ChatGPT, Claude, and Gemini.">
+  <meta property="og:type" content="article">
+  <link rel="canonical" href="https://YOUR-SHOPIFY-STORE.myshopify.com/blogs/news/risen-prompt-framework-guide">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "The RISEN Prompt Framework: Complete Guide for Professionals",
+    "description": "RISEN is a 5-step prompt engineering framework that consistently produces better AI outputs — Role, Instructions, Steps, End goal, Narrow.",
+    "author": { "@type": "Organization", "name": "Lumenora" },
+    "publisher": { "@type": "Organization", "name": "Lumenora" },
+    "datePublished": "2025-06-15",
+    "dateModified": "2025-06-15",
+    "keywords": ["RISEN prompt framework", "prompt engineering", "ChatGPT prompts", "Claude prompts", "AI prompts for work", "prompt engineering for beginners"]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the RISEN prompt framework?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "RISEN is a 5-component prompt engineering framework: Role (define the AI's persona), Instructions (specific task details), Steps (sequential breakdown), End goal (exact output format), and Narrow (constraints like tone and length). It produces more consistent, higher-quality AI outputs than unstructured prompting."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which AI tools does RISEN work with?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "RISEN works with all major AI language models including ChatGPT (GPT-4o), Claude (Anthropic), Gemini (Google), and Grok. The framework is model-agnostic — it improves outputs regardless of which AI tool you use."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long should a RISEN prompt be?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A well-written RISEN prompt is typically 80–200 words. It should be specific enough to eliminate ambiguity but not so long it overwhelms the model. The most important components are Role and End goal — if you only have 30 seconds, prioritise those two."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is prompt engineering a difficult skill to learn?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Prompt engineering is fundamentally clear communication — giving an AI precise instructions the same way you'd brief a skilled human assistant. Using a framework like RISEN reduces the learning curve significantly. Most professionals see improved outputs within their first 20 minutes of practice."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #060810;
+      --accent: #6c63ff;
+      --accent2: #a78bfa;
+      --accent3: #38bdf8;
+      --gold: #f4b942;
+      --text: #f0f0f0;
+      --muted: #94a3b8;
+      --border: rgba(108,99,255,0.15);
+    }
+
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.8; }
+
+    nav {
+      background: rgba(6,8,16,0.9);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(14px);
+    }
+
+    .nav-logo { font-weight: 700; letter-spacing: 0.08em; font-size: 0.95rem; background: linear-gradient(135deg, var(--accent2), var(--accent3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .nav-link { color: var(--muted); text-decoration: none; font-size: 0.88rem; }
+    .nav-link:hover { color: var(--text); }
+
+    .wrap { max-width: 760px; margin: 0 auto; padding: 60px 24px 100px; }
+
+    .meta { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 28px; align-items: center; }
+    .tag { background: rgba(108,99,255,0.12); border: 1px solid rgba(108,99,255,0.25); color: var(--accent2); padding: 4px 12px; border-radius: 999px; font-size: 0.73rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+    .meta-date, .read-time { font-size: 0.82rem; color: var(--muted); }
+
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.2; margin-bottom: 20px; }
+
+    .intro { font-size: 1.12rem; color: #cbd5e1; border-left: 3px solid var(--accent); padding-left: 20px; margin-bottom: 44px; line-height: 1.75; }
+
+    .body h2 { font-family: 'DM Serif Display', serif; font-size: 1.75rem; margin: 52px 0 16px; }
+    .body h3 { font-size: 1.12rem; font-weight: 700; margin: 32px 0 12px; color: var(--accent2); }
+    .body p { margin-bottom: 20px; color: #cbd5e1; font-size: 1rem; }
+    .body strong { color: var(--text); }
+    .body ul, .body ol { margin: 16px 0 24px 24px; color: #cbd5e1; }
+    .body li { margin-bottom: 10px; font-size: 1rem; }
+
+    .callout { background: rgba(108,99,255,0.08); border: 1px solid rgba(108,99,255,0.2); border-radius: 12px; padding: 24px 28px; margin: 32px 0; }
+    .callout-label { font-size: 0.73rem; font-weight: 700; color: var(--accent2); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+    .callout p { margin: 0; }
+
+    /* RISEN component cards */
+    .risen-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 32px 0; }
+
+    .risen-card {
+      background: rgba(12,15,26,0.8);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .risen-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: linear-gradient(180deg, var(--accent2), var(--accent3));
+    }
+
+    .risen-letter {
+      font-size: 2.2rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--accent2), var(--accent3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .risen-word { font-weight: 700; font-size: 1rem; margin-bottom: 6px; }
+    .risen-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
+    .risen-example { font-size: 0.82rem; background: rgba(255,255,255,0.04); border-radius: 7px; padding: 10px 12px; color: #93c5fd; font-style: italic; }
+
+    /* Prompt examples */
+    .prompt-example {
+      background: rgba(6,8,16,0.9);
+      border: 1px solid rgba(108,99,255,0.2);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 24px 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .prompt-label {
+      font-size: 0.73rem;
+      font-weight: 700;
+      color: var(--accent2);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .prompt-label::before { content: '»'; font-size: 1rem; }
+
+    .prompt-weak {
+      border-left: 3px solid #ef4444;
+      padding-left: 14px;
+      font-size: 0.88rem;
+      color: #fca5a5;
+      margin-bottom: 16px;
+    }
+
+    .prompt-strong {
+      border-left: 3px solid #34d399;
+      padding-left: 14px;
+      font-size: 0.88rem;
+      color: #a7f3d0;
+      white-space: pre-wrap;
+      line-height: 1.7;
+    }
+
+    .prompt-label-weak { color: #ef4444; font-size: 0.73rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+    .prompt-label-strong { color: #34d399; font-size: 0.73rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+
+    /* CTA box */
+    .cta-box { background: rgba(108,99,255,0.1); border: 1px solid rgba(108,99,255,0.3); border-radius: 16px; padding: 36px; text-align: center; margin: 52px 0; }
+    .cta-box h3 { font-family: 'DM Serif Display', serif; font-size: 1.6rem; margin-bottom: 12px; }
+    .cta-box p { color: var(--muted); margin-bottom: 24px; font-size: 0.95rem; }
+    .cta-btn { display: inline-block; background: linear-gradient(135deg, var(--accent), #8b5cf6); color: #fff; padding: 14px 36px; border-radius: 10px; font-weight: 700; text-decoration: none; font-size: 0.95rem; transition: transform 0.2s, box-shadow 0.2s; }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(108,99,255,0.4); }
+    .cta-sub { font-size: 0.78rem; color: #475569; margin-top: 12px; }
+
+    /* FAQ */
+    .faq { margin-top: 52px; }
+    .faq h2 { font-family: 'DM Serif Display', serif; font-size: 1.8rem; margin-bottom: 24px; }
+    .faq-item { border-bottom: 1px solid rgba(255,255,255,0.06); padding: 20px 0; }
+    .faq-q { font-weight: 600; margin-bottom: 10px; color: var(--text); font-size: 0.97rem; }
+    .faq-a { color: var(--muted); font-size: 0.92rem; line-height: 1.7; }
+
+    @media(max-width:600px) { .risen-grid { grid-template-columns: 1fr; } nav { padding: 14px 20px; } }
+  </style>
+</head>
+<body>
+  <nav>
+    <span class="nav-logo">Lumenora</span>
+    <div style="display:flex;gap:24px;align-items:center;">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/lead-magnet.html" class="nav-link">Free Checklist</a>
+      <a href="https://lumenora.gumroad.com/l/hltwgb" class="nav-link" style="color:var(--accent2);font-weight:600;">Get The Blueprint →</a>
+    </div>
+  </nav>
+
+  <article class="wrap" itemscope itemtype="https://schema.org/Article">
+
+    <div class="meta">
+      <span class="tag">Prompt Engineering</span>
+      <span class="tag">Framework</span>
+      <span class="meta-date">June 15, 2025</span>
+      <span class="read-time">8 min read</span>
+    </div>
+
+    <h1 itemprop="headline">The RISEN Prompt Framework: Complete Guide to Better AI Outputs</h1>
+
+    <div class="intro">
+      Most people use AI tools like a search engine — vague question, mediocre answer, mild disappointment. RISEN is the framework that fixes this. Five components, applied in sequence, that transform generic AI outputs into exactly what you need.
+    </div>
+
+    <div class="body" itemprop="articleBody">
+
+      <h2>Why Most AI Prompts Fail</h2>
+
+      <p>The quality gap between a bad prompt and a great one is enormous — but it has nothing to do with technical skill. It's about specificity and structure.</p>
+
+      <p>When you give an AI model a vague instruction like "write a marketing email," it has to make dozens of assumptions: Who is the audience? What's the product? What tone? What length? What do you want the reader to do? Lacking that information, the model produces statistically average output — competent but generic.</p>
+
+      <div class="callout">
+        <div class="callout-label">The core insight</div>
+        <p>AI models don't lack intelligence — they lack context. Your job as the prompter is to eliminate guesswork by providing every piece of context the model needs to produce excellent output.</p>
+      </div>
+
+      <p>RISEN is a systematic approach to providing that context. It's not a magic formula — it's a checklist that ensures you haven't left anything important out.</p>
+
+      <h2>The Five RISEN Components</h2>
+
+      <div class="risen-grid">
+        <div class="risen-card">
+          <div class="risen-letter">R</div>
+          <div class="risen-word">Role</div>
+          <div class="risen-desc">Define the persona or expert role you want the AI to adopt. This primes the model's tone, vocabulary, and level of expertise.</div>
+          <div class="risen-example">"You are a senior B2B copywriter with 10 years of experience writing for SaaS companies..."</div>
+        </div>
+        <div class="risen-card">
+          <div class="risen-letter">I</div>
+          <div class="risen-word">Instructions</div>
+          <div class="risen-desc">Give the specific task with full context. Include who the audience is, what they care about, and any relevant background.</div>
+          <div class="risen-example">"Write a cold outreach email to a VP of Marketing at a 50-person B2B SaaS company..."</div>
+        </div>
+        <div class="risen-card">
+          <div class="risen-letter">S</div>
+          <div class="risen-word">Steps</div>
+          <div class="risen-desc">Break complex tasks into numbered steps. AI models follow sequential instructions more reliably than open-ended requests.</div>
+          <div class="risen-example">"1. Open with a specific pain point. 2. Introduce the solution. 3. Include one social proof element. 4. Close with a low-friction CTA."</div>
+        </div>
+        <div class="risen-card">
+          <div class="risen-letter">E</div>
+          <div class="risen-word">End Goal</div>
+          <div class="risen-desc">Define the exact format and structure of the output you need. Don't assume — specify explicitly.</div>
+          <div class="risen-example">"Produce a 200-word email with a subject line, three short paragraphs, and a single CTA in bold."</div>
+        </div>
+        <div class="risen-card" style="grid-column: 1 / -1;">
+          <div class="risen-letter">N</div>
+          <div class="risen-word">Narrow</div>
+          <div class="risen-desc">Add constraints that prevent common failure modes. This is where you specify tone, reading level, what to avoid, and any hard rules.</div>
+          <div class="risen-example">"Tone: professional but warm. Reading level: eighth grade. Avoid: jargon, passive voice, exaggerated claims. Do not use the phrase 'game-changer'."</div>
+        </div>
+      </div>
+
+      <h2>Before vs. After: RISEN in Action</h2>
+
+      <p>The best way to understand RISEN is to compare a weak prompt and a RISEN-structured prompt on the same task.</p>
+
+      <h3>Example 1: Marketing Email</h3>
+
+      <div class="prompt-example">
+        <div class="prompt-label">Email Prompt Comparison</div>
+        <div class="prompt-label-weak">❌ Weak Prompt</div>
+        <div class="prompt-weak">Write a marketing email about our new feature.</div>
+        <br>
+        <div class="prompt-label-strong">✓ RISEN Prompt</div>
+        <div class="prompt-strong">Role: You are a senior B2B SaaS copywriter specialising in product-led growth emails.
+
+Instructions: Write an email announcing a new AI-powered reporting feature (called "SmartInsights") to existing customers who are on our Pro plan. They're primarily operations managers who struggle with manual reporting. Our key value prop: SmartInsights auto-generates weekly performance reports in 60 seconds — what used to take 3 hours.
+
+Steps: 1) Open with the customer's pain (manual reporting time). 2) Introduce SmartInsights with the key stat. 3) Show a brief "before/after" scenario. 4) CTA to activate the feature.
+
+End goal: One email, 180–220 words, with a subject line and preview text. Body in three short paragraphs.
+
+Narrow: Tone — warm and direct, not corporate. Avoid buzzwords like "revolutionary" or "game-changing." CTA button text should start with a verb.</div>
+      </div>
+
+      <h3>Example 2: Meeting Summary</h3>
+
+      <div class="prompt-example">
+        <div class="prompt-label">Meeting Summary Comparison</div>
+        <div class="prompt-label-weak">❌ Weak Prompt</div>
+        <div class="prompt-weak">Summarise this meeting transcript.</div>
+        <br>
+        <div class="prompt-label-strong">✓ RISEN Prompt</div>
+        <div class="prompt-strong">Role: You are an executive assistant skilled at distilling meeting discussions into clear action documents.
+
+Instructions: Summarise the attached transcript from our Q2 strategy review meeting. The audience is our VP of Product and VP of Sales, who weren't present. Key things they care about: decisions made, blockers identified, and who owns what.
+
+Steps: 1) Extract all decisions made (with owner). 2) List blockers or risks raised. 3) List all action items with owner and due date. 4) Note any open questions that need follow-up.
+
+End goal: A structured document with four labeled sections: Decisions, Blockers & Risks, Action Items (table format: Task | Owner | Due Date), Open Questions.
+
+Narrow: Maximum 400 words. Use bullet points. No filler sentences. If something was discussed but not decided, mark it clearly as "open."
+
+[TRANSCRIPT BELOW]</div>
+      </div>
+
+      <h3>Example 3: Analysis Report</h3>
+
+      <div class="prompt-example">
+        <div class="prompt-label">Analysis Report Comparison</div>
+        <div class="prompt-label-weak">❌ Weak Prompt</div>
+        <div class="prompt-weak">Analyse our customer feedback data.</div>
+        <br>
+        <div class="prompt-label-strong">✓ RISEN Prompt</div>
+        <div class="prompt-strong">Role: You are a senior customer research analyst with expertise in qualitative data synthesis and SaaS product development.
+
+Instructions: Analyse the attached customer feedback data (150 NPS survey responses from Q1). Our product team needs to identify the top themes driving detractor scores (NPS 0–6) to prioritise our Q2 roadmap.
+
+Steps: 1) Identify the top 5 themes from detractor responses. 2) For each theme, provide a frequency estimate (rough %) and 2–3 representative quotes. 3) Note any themes present in promoter responses that are absent from detractor responses — these are our strengths to protect. 4) Provide a prioritisation recommendation.
+
+End goal: A structured report with: Executive Summary (3 sentences), Top 5 Detractor Themes (with quotes), Strength Analysis, and Prioritised Recommendations.
+
+Narrow: Length: 500–700 words. Be direct in recommendations — avoid hedge language like "might consider" or "could potentially." Format recommendations as a numbered priority list.
+
+[FEEDBACK DATA BELOW]</div>
+      </div>
+
+      <!-- Mid-article CTA -->
+      <div class="cta-box">
+        <h3>Get 15 Pre-Built RISEN Prompts</h3>
+        <p>The AI Blueprint includes 15 role-specific RISEN prompts ready to copy and use — for Tech, Marketing, Healthcare, Finance, and universal professional roles.</p>
+        <a href="https://lumenora.gumroad.com/l/hltwgb" class="cta-btn" target="_blank" rel="noopener">Get The AI Blueprint — $37 →</a>
+        <p class="cta-sub">7-day money-back guarantee.</p>
+      </div>
+
+      <h2>Building Your Personal Prompt Library</h2>
+
+      <p>The biggest mistake professionals make after learning RISEN is using it once and then going back to improvising. The compounding power of RISEN comes from <strong>saving your best prompts</strong>.</p>
+
+      <p>Here's the system:</p>
+
+      <ol>
+        <li>Create a folder (Notion, Google Doc, or plain text file) called "Prompt Library"</li>
+        <li>Every time you write a RISEN prompt that produces excellent output, save it</li>
+        <li>Name each prompt by use case: "Weekly Status Email," "Customer Complaint Response," "Competitor Analysis"</li>
+        <li>After 30 days, you have a library of 20–30 prompts tailored to your exact role</li>
+        <li>Going forward, your AI work starts from a proven base — not from scratch</li>
+      </ol>
+
+      <p>Professionals with a prompt library are 3–5x more productive with AI tools than those who improvise each time. The library compounds: every new prompt you add improves your library, and your AI outputs improve proportionally.</p>
+
+      <h2>RISEN for Different Professional Roles</h2>
+
+      <h3>For Marketers</h3>
+      <p>The most powerful RISEN application in marketing is prompt chaining — using one RISEN prompt to generate a content brief, then a second prompt to turn the brief into a first draft, then a third to refine the draft. Each step is a separate, well-structured RISEN prompt that builds on the previous output.</p>
+
+      <h3>For Finance Professionals</h3>
+      <p>Finance gets the most value from RISEN's <strong>Steps</strong> component. Complex financial analysis — cash flow interpretation, variance analysis, scenario planning — benefits enormously from breaking the task into explicit sequential steps that the AI follows precisely.</p>
+
+      <h3>For Operations and Project Managers</h3>
+      <p>The <strong>End goal</strong> component is critical for operations use. Always specify the exact output format: table, checklist, numbered list, or narrative. Operations outputs need to be instantly actionable — and format specification ensures they are.</p>
+
+      <h3>For Healthcare Professionals</h3>
+      <p>The <strong>Narrow</strong> component carries extra weight in healthcare contexts. Specify clearly what the AI should <em>not</em> do: don't make clinical recommendations, don't cite specific drug dosages, maintain patient privacy. Healthcare professionals should always have a human review step for any AI-assisted clinical content.</p>
+
+      <h2>Common RISEN Mistakes (and How to Fix Them)</h2>
+
+      <ul>
+        <li><strong>Skipping the Role:</strong> The Role component sets the entire frame for what follows. Even a one-line role definition improves output quality significantly.</li>
+        <li><strong>Vague End goals:</strong> "Write a summary" is not an end goal. "Write a 150-word executive summary in three bullet points" is.</li>
+        <li><strong>No Narrow constraints:</strong> Without constraints, AI defaults to its own judgment about tone and style. This produces inconsistent outputs. Always specify at minimum: tone, length, and one thing to avoid.</li>
+        <li><strong>Treating RISEN as a magic formula:</strong> RISEN won't rescue a task with missing information. If you don't know who the audience is, no framework helps. Clarity precedes prompting.</li>
+        <li><strong>One prompt, one shot:</strong> RISEN prompts are starting points, not final products. Expect to iterate. Your first output will be 70–80% of what you need — refine from there.</li>
+      </ul>
+
+      <!-- FAQ Section -->
+      <div class="faq">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-item">
+          <div class="faq-q">What is the RISEN prompt framework?</div>
+          <div class="faq-a">RISEN is a 5-component prompt engineering framework: Role (define the AI's persona), Instructions (specific task details), Steps (sequential breakdown), End goal (exact output format), and Narrow (constraints like tone and length). It produces more consistent, higher-quality AI outputs than unstructured prompting.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Which AI tools does RISEN work with?</div>
+          <div class="faq-a">RISEN works with all major AI language models including ChatGPT (GPT-4o), Claude (Anthropic), Gemini (Google), and Grok. The framework is model-agnostic — it improves outputs regardless of which AI tool you use.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">How long should a RISEN prompt be?</div>
+          <div class="faq-a">A well-written RISEN prompt is typically 80–200 words. It should be specific enough to eliminate ambiguity but not so long it overwhelms the model. The most important components are Role and End goal — if you only have 30 seconds, prioritise those two.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Is prompt engineering a difficult skill to learn?</div>
+          <div class="faq-a">No. Prompt engineering is fundamentally clear communication — giving an AI precise instructions the same way you'd brief a skilled human assistant. Using a framework like RISEN reduces the learning curve significantly. Most professionals see improved outputs within their first 20 minutes of practice.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="cta-box" style="margin-top:52px;">
+      <h3>15 RISEN Prompts, Ready to Use</h3>
+      <p>The AI Blueprint includes 15 pre-built RISEN prompts across 5 professional roles — plus the complete prompt engineering masterclass and a 30-day implementation plan.</p>
+      <a href="https://lumenora.gumroad.com/l/hltwgb" class="cta-btn" target="_blank" rel="noopener">Get The AI Blueprint — $37 →</a>
+      <p class="cta-sub">Or <a href="/lead-magnet.html" style="color:var(--accent2);">download the free AI checklist</a> first.</p>
+    </div>
+
+  </article>
+</body>
+</html>
