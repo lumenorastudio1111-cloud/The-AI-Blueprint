@@ -1,0 +1,1972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMENORA — Funnel Command Center</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ivory: #FDFAF4;
+  --gold: #C9A43E;
+  --gold-dim: rgba(201,164,62,0.15);
+  --gold-border: rgba(201,164,62,0.35);
+  --charcoal: #1C1A17;
+  --charcoal-soft: #2A2723;
+  --charcoal-mid: #3A3733;
+  --warm-gray: #6B6560;
+  --text-muted: rgba(253,250,244,0.5);
+  --text-dim: rgba(253,250,244,0.7);
+  --green: #4CAF79;
+  --green-dim: rgba(76,175,121,0.12);
+  --red: #C9614A;
+  --blue: #5A8FBF;
+  --blue-dim: rgba(90,143,191,0.12);
+  --purple: #9B72CF;
+  --purple-dim: rgba(155,114,207,0.12);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--charcoal);
+  color: var(--ivory);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+}
+
+/* HEADER */
+.header {
+  background: var(--charcoal-soft);
+  border-bottom: 1px solid var(--gold-border);
+  padding: 32px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+.header-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.header-wordmark {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 4px;
+  color: var(--ivory);
+}
+.header-wordmark span { color: var(--gold); }
+.header-sub {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+  font-weight: 400;
+}
+.header-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--green);
+  font-weight: 400;
+}
+.status-dot {
+  width: 6px; height: 6px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* NAV */
+.nav {
+  background: var(--charcoal-soft);
+  border-bottom: 1px solid rgba(201,164,62,0.15);
+  display: flex;
+  padding: 0 48px;
+  overflow-x: auto;
+  gap: 0;
+}
+.nav-btn {
+  padding: 16px 24px;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--warm-gray);
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+  font-family: 'Jost', sans-serif;
+}
+.nav-btn:hover { color: var(--ivory); }
+.nav-btn.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+
+/* MAIN */
+.main { padding: 48px; max-width: 1200px; margin: 0 auto; }
+
+/* PANELS */
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* SECTION TITLE */
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px;
+  font-weight: 300;
+  color: var(--ivory);
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+.section-title em { font-style: italic; color: var(--gold); }
+.section-desc {
+  font-size: 13px;
+  color: var(--text-dim);
+  letter-spacing: 0.3px;
+  margin-bottom: 40px;
+  max-width: 640px;
+}
+
+/* ARCHITECTURE MAP */
+.arch-map {
+  background: var(--charcoal-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: 4px;
+  padding: 40px;
+  margin-bottom: 40px;
+  position: relative;
+  overflow: hidden;
+}
+.arch-map::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(201,164,62,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.arch-flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.arch-node {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 500;
+  border-radius: 2px;
+  min-width: 280px;
+  text-align: center;
+}
+.arch-node.gold { background: var(--gold-dim); border: 1px solid var(--gold-border); color: var(--gold); }
+.arch-node.green { background: var(--green-dim); border: 1px solid rgba(76,175,121,0.3); color: var(--green); }
+.arch-node.blue { background: var(--blue-dim); border: 1px solid rgba(90,143,191,0.3); color: var(--blue); }
+.arch-node.purple { background: var(--purple-dim); border: 1px solid rgba(155,114,207,0.3); color: var(--purple); }
+.arch-arrow {
+  font-size: 18px;
+  color: var(--warm-gray);
+  margin: 6px 0;
+}
+.arch-fork {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: 100%;
+  max-width: 680px;
+  margin: 12px 0;
+}
+.arch-fork-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.arch-fork-label {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--warm-gray);
+  text-transform: uppercase;
+}
+
+/* PHASE CHECKLIST */
+.phase-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 40px;
+}
+.phase-card {
+  background: var(--charcoal-soft);
+  border: 1px solid rgba(253,250,244,0.08);
+  border-radius: 4px;
+  padding: 28px;
+}
+.phase-card.critical { border-top: 2px solid var(--red); }
+.phase-card.important { border-top: 2px solid var(--gold); }
+.phase-card.growth { border-top: 2px solid var(--green); }
+.phase-eyebrow {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+.phase-card.critical .phase-eyebrow { color: var(--red); }
+.phase-card.important .phase-eyebrow { color: var(--gold); }
+.phase-card.growth .phase-eyebrow { color: var(--green); }
+.phase-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--ivory);
+  margin-bottom: 4px;
+}
+.phase-timing {
+  font-size: 10px;
+  color: var(--warm-gray);
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+.phase-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+  cursor: pointer;
+}
+.phase-check {
+  width: 16px; height: 16px;
+  border: 1px solid var(--warm-gray);
+  border-radius: 2px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  transition: all 0.2s;
+}
+.phase-item.done .phase-check {
+  background: var(--green);
+  border-color: var(--green);
+  color: white;
+}
+.phase-item-text {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+.phase-item.done .phase-item-text {
+  text-decoration: line-through;
+  color: var(--warm-gray);
+}
+.phase-tag {
+  display: inline-block;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  padding: 2px 8px;
+  border-radius: 2px;
+  margin-left: 6px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.tag-zap { background: rgba(255,104,56,0.15); color: #FF6838; }
+.tag-hs { background: rgba(255,122,0,0.15); color: #FF7A00; }
+.tag-html { background: var(--blue-dim); color: var(--blue); }
+.tag-manual { background: rgba(253,250,244,0.08); color: var(--warm-gray); }
+
+/* ZAP CARDS */
+.zap-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.zap-card {
+  background: var(--charcoal-soft);
+  border: 1px solid rgba(253,250,244,0.08);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.zap-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 28px;
+  border-bottom: 1px solid rgba(253,250,244,0.06);
+  cursor: pointer;
+}
+.zap-id-block { display: flex; align-items: center; gap: 16px; }
+.zap-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--gold);
+  background: var(--gold-dim);
+  padding: 4px 12px;
+  border-radius: 2px;
+  border: 1px solid var(--gold-border);
+}
+.zap-name {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ivory);
+}
+.zap-priority {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 2px;
+  font-weight: 500;
+}
+.priority-critical { background: rgba(201,97,74,0.15); color: var(--red); border: 1px solid rgba(201,97,74,0.3); }
+.priority-week2 { background: rgba(201,164,62,0.12); color: var(--gold); border: 1px solid var(--gold-border); }
+.priority-week4 { background: rgba(76,175,121,0.1); color: var(--green); border: 1px solid rgba(76,175,121,0.25); }
+.zap-toggle { color: var(--warm-gray); font-size: 18px; transition: transform 0.2s; }
+.zap-card.open .zap-toggle { transform: rotate(180deg); }
+
+.zap-body {
+  display: none;
+  padding: 28px;
+  border-top: 1px solid rgba(253,250,244,0.04);
+}
+.zap-card.open .zap-body { display: block; }
+
+.zap-spec-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 24px;
+}
+.zap-spec-block {}
+.zap-spec-label {
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+.zap-spec-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ivory);
+  line-height: 1.6;
+  background: rgba(253,250,244,0.04);
+  padding: 12px 16px;
+  border-radius: 2px;
+  border: 1px solid rgba(253,250,244,0.06);
+}
+.zap-spec-value .hl { color: var(--gold); }
+.zap-spec-value .hl-green { color: var(--green); }
+.zap-spec-value .hl-blue { color: var(--blue); }
+
+.zap-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.zap-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 16px;
+  background: rgba(253,250,244,0.03);
+  border-radius: 2px;
+  border-left: 2px solid transparent;
+}
+.zap-step.trigger { border-left-color: var(--blue); }
+.zap-step.action { border-left-color: var(--gold); }
+.zap-step.filter { border-left-color: var(--purple); }
+.zap-step.delay { border-left-color: var(--warm-gray); }
+.step-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--warm-gray);
+  min-width: 24px;
+  margin-top: 2px;
+}
+.step-type {
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 500;
+  min-width: 56px;
+  margin-top: 2px;
+}
+.zap-step.trigger .step-type { color: var(--blue); }
+.zap-step.action .step-type { color: var(--gold); }
+.zap-step.filter .step-type { color: var(--purple); }
+.zap-step.delay .step-type { color: var(--warm-gray); }
+.step-detail {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  flex: 1;
+}
+.step-detail strong { color: var(--ivory); font-weight: 500; }
+.step-detail code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  background: rgba(201,164,62,0.1);
+  color: var(--gold);
+  padding: 1px 6px;
+  border-radius: 2px;
+}
+
+/* EMAIL SEQUENCES */
+.seq-grid { display: flex; flex-direction: column; gap: 24px; }
+.seq-card {
+  background: var(--charcoal-soft);
+  border: 1px solid rgba(253,250,244,0.08);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.seq-header {
+  padding: 22px 28px;
+  border-bottom: 1px solid rgba(253,250,244,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.seq-meta { display: flex; align-items: center; gap: 16px; }
+.seq-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--purple);
+  background: var(--purple-dim);
+  padding: 4px 10px;
+  border-radius: 2px;
+  border: 1px solid rgba(155,114,207,0.25);
+}
+.seq-name {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--ivory);
+}
+.seq-stats { display: flex; gap: 12px; }
+.seq-stat {
+  font-size: 10px;
+  color: var(--warm-gray);
+  letter-spacing: 1px;
+}
+.seq-body { display: none; padding: 0; }
+.seq-card.open .seq-body { display: block; }
+
+.email-strip {
+  border-bottom: 1px solid rgba(253,250,244,0.05);
+  padding: 24px 28px;
+}
+.email-strip:last-child { border-bottom: none; }
+.email-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.email-day {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--warm-gray);
+  background: rgba(253,250,244,0.05);
+  padding: 3px 10px;
+  border-radius: 2px;
+}
+.email-subject {
+  font-size: 13px;
+  color: var(--gold);
+  font-weight: 400;
+  font-style: italic;
+  font-family: 'Cormorant Garamond', serif;
+}
+.email-goal {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: var(--warm-gray);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.email-body-preview {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.8;
+  background: rgba(253,250,244,0.03);
+  padding: 16px 20px;
+  border-radius: 2px;
+  border-left: 2px solid var(--gold-border);
+  white-space: pre-line;
+  font-family: 'Jost', sans-serif;
+}
+.email-cta {
+  margin-top: 12px;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--green);
+  font-weight: 500;
+}
+
+/* HTML SNIPPET PANEL */
+.html-block {
+  background: rgba(253,250,244,0.03);
+  border: 1px solid rgba(253,250,244,0.08);
+  border-radius: 4px;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+.html-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: rgba(253,250,244,0.04);
+  border-bottom: 1px solid rgba(253,250,244,0.06);
+}
+.html-block-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--blue);
+}
+.copy-btn {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+  background: none;
+  border: 1px solid rgba(253,250,244,0.1);
+  padding: 4px 12px;
+  border-radius: 2px;
+  cursor: pointer;
+  font-family: 'Jost', sans-serif;
+  transition: all 0.2s;
+}
+.copy-btn:hover { border-color: var(--gold); color: var(--gold); }
+.copy-btn.copied { border-color: var(--green); color: var(--green); }
+.code-block {
+  padding: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--text-dim);
+  overflow-x: auto;
+  white-space: pre;
+}
+.code-block .c-tag { color: #5A8FBF; }
+.code-block .c-attr { color: #C9A43E; }
+.code-block .c-val { color: #9B72CF; }
+.code-block .c-comment { color: #4CAF79; }
+.code-block .c-placeholder { color: #C9614A; font-weight: 400; }
+
+/* PLACEHOLDER TABLE */
+.placeholder-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 32px;
+}
+.placeholder-table th {
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+  font-weight: 500;
+  padding: 10px 16px;
+  text-align: left;
+  border-bottom: 1px solid rgba(253,250,244,0.08);
+}
+.placeholder-table td {
+  padding: 12px 16px;
+  font-size: 12px;
+  border-bottom: 1px solid rgba(253,250,244,0.04);
+  vertical-align: top;
+}
+.placeholder-table td:first-child {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--red);
+}
+.placeholder-table td:nth-child(2) { color: var(--text-dim); }
+.placeholder-table td:nth-child(3) { color: var(--warm-gray); font-size: 11px; }
+.placeholder-table tr:hover td { background: rgba(253,250,244,0.02); }
+
+/* REVENUE TABLE */
+.rev-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.rev-table th {
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+  font-weight: 500;
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid rgba(253,250,244,0.08);
+  background: rgba(253,250,244,0.03);
+}
+.rev-table td {
+  padding: 14px 16px;
+  font-size: 12px;
+  border-bottom: 1px solid rgba(253,250,244,0.04);
+  color: var(--text-dim);
+}
+.rev-table td.gold { color: var(--gold); font-family: 'JetBrains Mono', monospace; }
+.rev-table td.green { color: var(--green); font-weight: 500; }
+.rev-table tr:hover td { background: rgba(253,250,244,0.02); }
+
+/* DIVIDER */
+.divider { border: none; border-top: 1px solid rgba(253,250,244,0.06); margin: 32px 0; }
+
+/* ALERT BOX */
+.alert {
+  display: flex;
+  gap: 16px;
+  padding: 18px 20px;
+  border-radius: 4px;
+  margin-bottom: 24px;
+}
+.alert.gold { background: var(--gold-dim); border: 1px solid var(--gold-border); }
+.alert.red { background: rgba(201,97,74,0.1); border: 1px solid rgba(201,97,74,0.25); }
+.alert.green { background: var(--green-dim); border: 1px solid rgba(76,175,121,0.25); }
+.alert-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.alert-text { font-size: 12px; color: var(--text-dim); line-height: 1.6; }
+.alert-text strong { color: var(--ivory); display: block; margin-bottom: 4px; font-weight: 500; }
+
+@media (max-width: 768px) {
+  .header { padding: 20px 24px; }
+  .nav { padding: 0 16px; }
+  .main { padding: 28px 20px; }
+  .phase-grid { grid-template-columns: 1fr; }
+  .zap-spec-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-brand">
+    <div class="header-wordmark">LUMENORA <span>CONSULTING</span>™</div>
+    <div class="header-sub">Funnel Command Center — Build Specification</div>
+  </div>
+  <div class="header-status">
+    <div class="status-dot"></div>
+    8 Zaps · 4 Sequences · 3 HTML Files
+  </div>
+</div>
+
+<nav class="nav">
+  <button class="nav-btn active" onclick="showPanel('overview')">Overview</button>
+  <button class="nav-btn" onclick="showPanel('checklist')">Setup Checklist</button>
+  <button class="nav-btn" onclick="showPanel('zaps')">Zapier Specs</button>
+  <button class="nav-btn" onclick="showPanel('sequences')">HubSpot Sequences</button>
+  <button class="nav-btn" onclick="showPanel('html')">HTML Placeholders</button>
+  <button class="nav-btn" onclick="showPanel('revenue')">Revenue Map</button>
+</nav>
+
+<div class="main">
+
+<!-- ============================================================ -->
+<!-- OVERVIEW PANEL -->
+<!-- ============================================================ -->
+<div class="panel active" id="panel-overview">
+  <div class="section-title">The <em>Full Funnel</em> Architecture</div>
+  <div class="section-desc">Every loop, trigger, and revenue path. This is the complete LUMENORA content-to-consulting engine — built once, runs permanently.</div>
+
+  <div class="arch-map">
+    <div class="arch-flow">
+      <div class="arch-node gold">↗ Keyword Research</div>
+      <div class="arch-arrow">↓</div>
+      <div class="arch-node blue">Loop 1 — SEO Blog Post → Published to Shopify</div>
+      <div class="arch-arrow">↓</div>
+      <div class="arch-fork">
+        <div class="arch-fork-item">
+          <div class="arch-fork-label">Loop 3</div>
+          <div class="arch-node blue">Social Content<br><span style="font-size:9px;opacity:0.6">Threads + LinkedIn</span></div>
+          <span style="color:var(--warm-gray);font-size:13px">↓</span>
+        </div>
+        <div class="arch-fork-item">
+          <div class="arch-fork-label">Loop 5</div>
+          <div class="arch-node purple">GEO Optimization<br><span style="font-size:9px;opacity:0.6">AI Search Visibility</span></div>
+          <span style="color:var(--warm-gray);font-size:13px">↓</span>
+        </div>
+      </div>
+      <div class="arch-node green">→ Traffic to Shopify Store ←</div>
+      <div class="arch-arrow">↓</div>
+      <div class="arch-node blue">Loop 2 — Pinterest Discovery<br><span style="font-size:9px;opacity:0.6">Independent traffic stream</span></div>
+      <div class="arch-arrow">↓</div>
+      <div class="arch-node green">→ Traffic to Shopify Store</div>
+      <div class="arch-arrow">↓</div>
+      <div class="arch-node gold">Lead Magnet Opt-In → ZAP_01 fires</div>
+      <div class="arch-arrow">↓</div>
+      <div class="arch-node purple">Loop 4 — HubSpot Email Nurture (SEQ_01 → SEQ_02 → SEQ_03)</div>
+      <div class="arch-arrow">↓</div>
+      <div class="arch-fork">
+        <div class="arch-fork-item">
+          <div class="arch-fork-label">Product Sale</div>
+          <div class="arch-node blue">$37 → $197<br><span style="font-size:9px;opacity:0.6">ZAP_02 · ZAP_03</span></div>
+        </div>
+        <div class="arch-fork-item">
+          <div class="arch-fork-label">Consulting Inquiry</div>
+          <div class="arch-node gold">$1,500 → $15,000<br><span style="font-size:9px;opacity:0.6">ZAP_04 · ZAP_05</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert gold">
+    <div class="alert-icon">⚡</div>
+    <div class="alert-text">
+      <strong>Critical Path — Execute in This Order</strong>
+      ZAP_01 + ZAP_02 + ZAP_04 are the three mission-critical automations. Everything else is amplification. Do not build Loop 3 or GEO until these three are live and tested with a real submission.
+    </div>
+  </div>
+
+  <table class="rev-table">
+    <thead>
+      <tr>
+        <th>Component</th>
+        <th>What It Does</th>
+        <th>Connects To</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>ZAP_01</td><td>Lead magnet opt-in → HubSpot contact + enroll SEQ_01</td><td>HubSpot · SEQ_01</td><td style="color:var(--red)">🔴 Build Day 1</td></tr>
+      <tr><td>ZAP_02</td><td>Gumroad $37 sale → HubSpot deal closed won + SEQ_02</td><td>Gumroad · HubSpot · SEQ_02</td><td style="color:var(--red)">🔴 Build Day 1</td></tr>
+      <tr><td>ZAP_03</td><td>Gumroad $197 sale → HubSpot deal + SEQ_03</td><td>Gumroad · HubSpot · SEQ_03</td><td style="color:var(--gold)">🟡 Week 2</td></tr>
+      <tr><td>ZAP_04</td><td>Consulting form → HubSpot deal + internal alert</td><td>HubSpot Forms · Gmail</td><td style="color:var(--red)">🔴 Build Day 1</td></tr>
+      <tr><td>ZAP_05</td><td>Consulting deal closed → client welcome email</td><td>HubSpot · Gmail</td><td style="color:var(--gold)">🟡 Week 2</td></tr>
+      <tr><td>ZAP_06</td><td>Shopify blog publish → Buffer queue (Threads + LinkedIn)</td><td>Shopify · Buffer</td><td style="color:var(--gold)">🟡 Week 2</td></tr>
+      <tr><td>ZAP_07</td><td>Gumroad refund → remove from sequences</td><td>Gumroad · HubSpot</td><td style="color:var(--green)">🟢 Week 4</td></tr>
+      <tr><td>ZAP_08</td><td>Monthly revenue report → Google Sheets</td><td>HubSpot · Google Sheets</td><td style="color:var(--green)">🟢 Week 4</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ============================================================ -->
+<!-- CHECKLIST PANEL -->
+<!-- ============================================================ -->
+<div class="panel" id="panel-checklist">
+  <div class="section-title"><em>3-Phase</em> Setup Checklist</div>
+  <div class="section-desc">Organized by business impact, not complexity. Phase 1 closes the revenue loop. Phase 2 scales it. Phase 3 automates the reporting.</div>
+
+  <div class="alert red">
+    <div class="alert-icon">🔑</div>
+    <div class="alert-text">
+      <strong>Before you build a single Zap — complete these two items first</strong>
+      (1) Create your two HubSpot forms (Lead Magnet + Consulting Inquiry) and capture the Portal ID and both Form GUIDs. (2) Have your Gumroad product links and Shopify store URL ready. Every Zap below depends on these.
+    </div>
+  </div>
+
+  <div class="phase-grid">
+    <div class="phase-card critical">
+      <div class="phase-eyebrow">Phase 1 — Critical Path</div>
+      <div class="phase-title">Day 1</div>
+      <div class="phase-timing">Complete before going live</div>
+
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="phase-check">✓</div>
+        <div class="phase-item-text">Create HubSpot Lead Magnet form — capture Portal ID + Form GUID <span class="phase-tag tag-hs">HubSpot</span></div>
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="phase-check">✓</div>
+        <div class="phase-item-text">Create HubSpot Consulting Inquiry form — capture Form GUID <span class="phase-tag tag-hs">HubSpot</span></div>
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="phase-check">✓</div>
+        <div class="phase-item-text">Paste Portal ID + Form GUIDs into lead-magnet.html, index.html, consulting.html <span class="phase-tag tag-html">HTML</span></div>
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="phase-check">✓</div>
+        <div class="phase-item-text">Build SEQ_01 (Welcome Nurture) in HubSpot Sequences — 5 emails <span class="phase-tag tag-hs">HubSpot</span></div>
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="phase-check">✓</div>
+        <div class="phase-item-text">Build ZAP_01 — Lead magnet form → HubSpot contact + enroll SEQ_01 <span class="phase-tag tag-zap">Zapier</span></div>
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="phase-check">✓</div>
+        <div class="phase-item-text">Build ZAP_02 — Gumroad $37 sale → HubSpot deal closed won <span class="phase-tag tag-zap">Zapier</span></div>
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="phase-check">✓</div>
+        <div class="phase-item-text">Build ZAP_04 — Consulting form submission → HubSpot deal + internal alert <span class="phase-tag tag-zap">Zapier</span></div>
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="phase-check">✓</div>
+        <div class="phase-item-text">Test full flow: submit lead magnet form → confirm HubSpot contact created + SEQ_01 enrolled <span class="phase-tag tag-manual">Test</span></div>
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="phase-check">✓</div>
+        <div class="phase-item-text">Test ZAP_02: trigger Gumroad test purchase → confirm HubSpot deal appears <span class="phase-tag tag-manual">Test</span></div>
+      </div>
+    </div>
+
+    <div class="phase-card important">
+      <div class="phase-eyebrow">Phase 2 — Scale</div>
+      <div class="phase-title">Week 2</div>
+      <div class="phase-timing">After critical path is validated</div>
+
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="phase-check">✓</div>
+        <div class="phase-item-text">Build SEQ_02 (Post-$37 Purchase) — 3 emails <span class="phase-tag tag-hs">HubSpot</span></div>
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="phase-check">✓</div>
+        <div class="phase-item-text">Build SEQ_03 (Post-$197 Purchase) — 3 emails <span class="phase-tag tag-hs">HubSpot</span></div>
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="phase-check">✓</div>
+        <div class="phase-item-text">Build SEQ_04 (Consulting Prospect Nurture) — 4 emails <span class="phase-tag tag-hs">HubSpot</span></div>
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="phase-check">✓</div>
+        <div class="phase-item-text">Build ZAP_03 — Gumroad $197 sale → HubSpot deal + SEQ_03 <span class="phase-tag tag-zap">Zapier</span></div>
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="phase-check">✓</div>
+        <div class="phase-item-text">Build ZAP_05 — Consulting deal closed won → client welcome email <span class="phase-tag tag-zap">Zapier</span></div>
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="phase-check">✓</div>
+        <div class="phase-item-text">Connect Buffer account, set up Threads + LinkedIn channels <span class="phase-tag tag-manual">Buffer</span></div>
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="phase-check">✓</div>
+        <div class="phase-item-text">Build ZAP_06 — Shopify blog publish → Buffer social queue <span class="phase-tag tag-zap">Zapier</span></div>
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="phase-check">✓</div>
+        <div class="phase-item-text">Publish first Shopify blog post and verify ZAP_06 fires to Buffer <span class="phase-tag tag-manual">Test</span></div>
+      </div>
+    </div>
+
+    <div class="phase-card growth">
+      <div class="phase-eyebrow">Phase 3 — Automate Everything</div>
+      <div class="phase-title">Week 4</div>
+      <div class="phase-timing">After first revenue confirmed</div>
+
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="phase-check">✓</div>
+        <div class="phase-item-text">Build ZAP_07 — Gumroad refund → unenroll from sequences + tag contact <span class="phase-tag tag-zap">Zapier</span></div>
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="phase-check">✓</div>
+        <div class="phase-item-text">Set up Google Sheets revenue tracking template (columns: date, source, product, amount) <span class="phase-tag tag-manual">Sheets</span></div>
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="phase-check">✓</div>
+        <div class="phase-item-text">Build ZAP_08 — Monthly HubSpot deal data → Google Sheets revenue log <span class="phase-tag tag-zap">Zapier</span></div>
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="phase-check">✓</div>
+        <div class="phase-item-text">Set up Pinterest Creator account and schedule first 10 pins (product + blog traffic) <span class="phase-tag tag-manual">Pinterest</span></div>
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="phase-check">✓</div>
+        <div class="phase-item-text">Run first GEO optimization pass — submit Shopify sitemap to Bing + add structured data markup <span class="phase-tag tag-manual">GEO</span></div>
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="phase-check">✓</div>
+        <div class="phase-item-text">Audit all 8 Zaps — confirm error handling is on, verify all are set to ON in Zapier <span class="phase-tag tag-zap">Zapier</span></div>
+      </div>
+      <div class="phase-item" onclick="toggleCheck(this)">
+        <div class="phase-check">✓</div>
+        <div class="phase-item-text">Review first month's HubSpot sequence open/click rates — adjust subject lines if < 35% open rate <span class="phase-tag tag-manual">Optimize</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ZAPIER SPECS PANEL -->
+<!-- ============================================================ -->
+<div class="panel" id="panel-zaps">
+  <div class="section-title"><em>Zapier</em> Build Specifications</div>
+  <div class="section-desc">Complete step-by-step build specs for all 8 Zaps. Click any Zap to expand the full build guide. Build in priority order: ZAP_01 → ZAP_02 → ZAP_04 first.</div>
+
+  <div class="zap-grid">
+
+    <!-- ZAP_01 -->
+    <div class="zap-card" id="zap01">
+      <div class="zap-header" onclick="toggleZap('zap01')">
+        <div class="zap-id-block">
+          <span class="zap-id">ZAP_01</span>
+          <span class="zap-name">Lead Magnet Opt-In → HubSpot Contact + SEQ_01 Enrollment</span>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <span class="zap-priority priority-critical">Day 1 Critical</span>
+          <span class="zap-toggle">↓</span>
+        </div>
+      </div>
+      <div class="zap-body">
+        <div class="zap-spec-grid">
+          <div class="zap-spec-block">
+            <div class="zap-spec-label">Trigger App</div>
+            <div class="zap-spec-value"><span class="hl">HubSpot</span> — New Form Submission<br>Form: <span class="hl">Lead Magnet Opt-In</span><br>Portal: <span class="hl-green">{{YOUR_PORTAL_ID}}</span></div>
+          </div>
+          <div class="zap-spec-block">
+            <div class="zap-spec-label">Primary Action App</div>
+            <div class="zap-spec-value"><span class="hl">HubSpot</span> — Create/Update Contact<br>Then: Enroll in Sequence <span class="hl">SEQ_01</span></div>
+          </div>
+        </div>
+        <div class="zap-steps">
+          <div class="zap-step trigger">
+            <div class="step-num">01</div>
+            <div class="step-type">Trigger</div>
+            <div class="step-detail"><strong>HubSpot → New Form Submission</strong><br>Select form: <code>Lead Magnet Opt-In Form</code>. Leave portal on default (auto-detects your connected account).</div>
+          </div>
+          <div class="zap-step action">
+            <div class="step-num">02</div>
+            <div class="step-type">Action</div>
+            <div class="step-detail"><strong>HubSpot → Create or Update Contact</strong><br>Map: Email → <code>{{email}}</code> · First Name → <code>{{firstname}}</code> · Last Name → <code>{{lastname}}</code> · Lead Source → <code>Lead Magnet</code> (static). Set lifecycle stage: <code>Lead</code>.</div>
+          </div>
+          <div class="zap-step action">
+            <div class="step-num">03</div>
+            <div class="step-type">Action</div>
+            <div class="step-detail"><strong>HubSpot → Add Contact to List</strong><br>List name: <code>Lead Magnet Subscribers</code>. Contact ID: output from Step 02.</div>
+          </div>
+          <div class="zap-step action">
+            <div class="step-num">04</div>
+            <div class="step-type">Action</div>
+            <div class="step-detail"><strong>HubSpot → Enroll in Sequence</strong><br>Sequence: <code>SEQ_01 — Welcome Nurture</code>. Contact ID: output from Step 02. Sender: your connected Gmail. <strong>Note:</strong> HubSpot Sequences require Sales Hub Starter or above.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ZAP_02 -->
+    <div class="zap-card" id="zap02">
+      <div class="zap-header" onclick="toggleZap('zap02')">
+        <div class="zap-id-block">
+          <span class="zap-id">ZAP_02</span>
+          <span class="zap-name">Gumroad $37 Sale → HubSpot Deal (Closed Won) + SEQ_02</span>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <span class="zap-priority priority-critical">Day 1 Critical</span>
+          <span class="zap-toggle">↓</span>
+        </div>
+      </div>
+      <div class="zap-body">
+        <div class="zap-spec-grid">
+          <div class="zap-spec-block">
+            <div class="zap-spec-label">Trigger App</div>
+            <div class="zap-spec-value"><span class="hl">Gumroad</span> — New Sale<br>Product: <span class="hl">The AI Blueprint ($37)</span><br>Filter by price range needed</div>
+          </div>
+          <div class="zap-spec-block">
+            <div class="zap-spec-label">Primary Action</div>
+            <div class="zap-spec-value"><span class="hl">HubSpot</span> — Create Deal<br>Stage: <span class="hl-green">Closed Won</span><br>Then: Enroll in <span class="hl">SEQ_02</span></div>
+          </div>
+        </div>
+        <div class="zap-steps">
+          <div class="zap-step trigger">
+            <div class="step-num">01</div>
+            <div class="step-type">Trigger</div>
+            <div class="step-detail"><strong>Gumroad → New Sale</strong><br>Connect your Gumroad account. Select product: <code>The AI Blueprint</code>. If you sell multiple $37 products, use a filter in Step 02.</div>
+          </div>
+          <div class="zap-step filter">
+            <div class="step-num">02</div>
+            <div class="step-type">Filter</div>
+            <div class="step-detail"><strong>Filter — Only Continue If</strong><br>Condition: <code>Price</code> → <code>Exactly matches</code> → <code>37</code>. This prevents ZAP_02 and ZAP_03 from colliding if you use a single Gumroad trigger.</div>
+          </div>
+          <div class="zap-step action">
+            <div class="step-num">03</div>
+            <div class="step-type">Action</div>
+            <div class="step-detail"><strong>HubSpot → Create or Update Contact</strong><br>Email → <code>{{buyer_email}}</code> · First Name → <code>{{buyer_name}}</code> · Lifecycle Stage → <code>Customer</code>.</div>
+          </div>
+          <div class="zap-step action">
+            <div class="step-num">04</div>
+            <div class="step-type">Action</div>
+            <div class="step-detail"><strong>HubSpot → Create Deal</strong><br>Deal Name → <code>AI Blueprint — {{buyer_name}}</code> · Amount → <code>37</code> · Pipeline → <code>Digital Products</code> · Stage → <code>Closed Won</code> · Associate with contact from Step 03.</div>
+          </div>
+          <div class="zap-step action">
+            <div class="step-num">05</div>
+            <div class="step-type">Action</div>
+            <div class="step-detail"><strong>HubSpot → Enroll in Sequence</strong><br>Sequence: <code>SEQ_02 — Post-Purchase $37</code>. Contact ID from Step 03.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ZAP_03 -->
+    <div class="zap-card" id="zap03">
+      <div class="zap-header" onclick="toggleZap('zap03')">
+        <div class="zap-id-block">
+          <span class="zap-id">ZAP_03</span>
+          <span class="zap-name">Gumroad $197 Sale → HubSpot Deal + SEQ_03</span>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <span class="zap-priority priority-week2">Week 2</span>
+          <span class="zap-toggle">↓</span>
+        </div>
+      </div>
+      <div class="zap-body">
+        <div class="zap-spec-grid">
+          <div class="zap-spec-block">
+            <div class="zap-spec-label">Trigger App</div>
+            <div class="zap-spec-value"><span class="hl">Gumroad</span> — New Sale<br>Products: <span class="hl">AI Automation Empire™</span><br>or Luxury Brand Launch System</div>
+          </div>
+          <div class="zap-spec-block">
+            <div class="zap-spec-label">Primary Action</div>
+            <div class="zap-spec-value"><span class="hl">HubSpot</span> — Create Deal<br>Stage: <span class="hl-green">Closed Won</span><br>Amount: <span class="hl">197</span><br>Then: Enroll <span class="hl">SEQ_03</span></div>
+          </div>
+        </div>
+        <div class="zap-steps">
+          <div class="zap-step trigger">
+            <div class="step-num">01</div>
+            <div class="step-type">Trigger</div>
+            <div class="step-detail"><strong>Gumroad → New Sale</strong><br>Same Gumroad connection as ZAP_02.</div>
+          </div>
+          <div class="zap-step filter">
+            <div class="step-num">02</div>
+            <div class="step-type">Filter</div>
+            <div class="step-detail"><strong>Filter — Only Continue If</strong><br>Condition: <code>Price</code> → <code>Exactly matches</code> → <code>197</code>. Separates this Zap cleanly from ZAP_02.</div>
+          </div>
+          <div class="zap-step action">
+            <div class="step-num">03</div>
+            <div class="step-type">Action</div>
+            <div class="step-detail"><strong>HubSpot → Create or Update Contact</strong><br>Email, name, lifecycle → <code>Customer</code>. Add tag: <code>high-value-buyer</code>.</div>
+          </div>
+          <div class="zap-step action">
+            <div class="step-num">04</div>
+            <div class="step-type">Action</div>
+            <div class="step-detail"><strong>HubSpot → Create Deal</strong><br>Deal Name → <code>{{product_name}} — {{buyer_name}}</code> · Amount → <code>197</code> · Stage → <code>Closed Won</code>.</div>
+          </div>
+          <div class="zap-step action">
+            <div class="step-num">05</div>
+            <div class="step-type">Action</div>
+            <div class="step-detail"><strong>HubSpot → Enroll in Sequence</strong><br>Sequence: <code>SEQ_03 — Post-Purchase $197 + Consulting Bridge</code>.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ZAP_04 -->
+    <div class="zap-card" id="zap04">
+      <div class="zap-header" onclick="toggleZap('zap04')">
+        <div class="zap-id-block">
+          <span class="zap-id">ZAP_04</span>
+          <span class="zap-name">Consulting Form → HubSpot Deal (Prospecting) + Internal Alert</span>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <span class="zap-priority priority-critical">Day 1 Critical</span>
+          <span class="zap-toggle">↓</span>
+        </div>
+      </div>
+      <div class="zap-body">
+        <div class="zap-spec-grid">
+          <div class="zap-spec-block">
+            <div class="zap-spec-label">Trigger App</div>
+            <div class="zap-spec-value"><span class="hl">HubSpot</span> — New Form Submission<br>Form: <span class="hl">Consulting Inquiry Form</span></div>
+          </div>
+          <div class="zap-spec-block">
+            <div class="zap-spec-label">Primary Actions</div>
+            <div class="zap-spec-value"><span class="hl">HubSpot</span> — Create Deal (Prospecting)<br><span class="hl">Gmail</span> — Send internal alert to Angela<br><span class="hl">HubSpot</span> — Enroll SEQ_04</div>
+          </div>
+        </div>
+        <div class="zap-steps">
+          <div class="zap-step trigger">
+            <div class="step-num">01</div>
+            <div class="step-type">Trigger</div>
+            <div class="step-detail"><strong>HubSpot → New Form Submission</strong><br>Form: <code>Consulting Inquiry Form</code>. This is the highest-priority trigger in your entire funnel — a live prospect.</div>
+          </div>
+          <div class="zap-step action">
+            <div class="step-num">02</div>
+            <div class="step-type">Action</div>
+            <div class="step-detail"><strong>HubSpot → Create or Update Contact</strong><br>Map all form fields. Lifecycle Stage → <code>Lead</code>. Lead Source → <code>Consulting Form</code>.</div>
+          </div>
+          <div class="zap-step action">
+            <div class="step-num">03</div>
+            <div class="step-type">Action</div>
+            <div class="step-detail"><strong>HubSpot → Create Deal</strong><br>Deal Name → <code>Consulting Inquiry — {{firstname}} {{lastname}}</code> · Pipeline → <code>Consulting Pipeline</code> · Stage → <code>Prospecting</code> · Associate to contact from Step 02.</div>
+          </div>
+          <div class="zap-step action">
+            <div class="step-num">04</div>
+            <div class="step-type">Action</div>
+            <div class="step-detail"><strong>Gmail → Send Email</strong><br>To: <code>YOUR_EMAIL@gmail.com</code> · Subject: <code>🔥 New Consulting Inquiry — {{firstname}} {{lastname}}</code><br>Body: Name, email, business type, and message from form fields. Include: <code>Reply within 2 business hours.</code></div>
+          </div>
+          <div class="zap-step action">
+            <div class="step-num">05</div>
+            <div class="step-type">Action</div>
+            <div class="step-detail"><strong>HubSpot → Enroll in Sequence</strong><br>Sequence: <code>SEQ_04 — Consulting Prospect Nurture</code>. This runs automatically while you prepare your personal response.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ZAP_05 -->
+    <div class="zap-card" id="zap05">
+      <div class="zap-header" onclick="toggleZap('zap05')">
+        <div class="zap-id-block">
+          <span class="zap-id">ZAP_05</span>
+          <span class="zap-name">Consulting Deal Closed Won → Client Welcome Email</span>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <span class="zap-priority priority-week2">Week 2</span>
+          <span class="zap-toggle">↓</span>
+        </div>
+      </div>
+      <div class="zap-body">
+        <div class="zap-steps">
+          <div class="zap-step trigger">
+            <div class="step-num">01</div>
+            <div class="step-type">Trigger</div>
+            <div class="step-detail"><strong>HubSpot → Deal Stage Updated</strong><br>Pipeline: <code>Consulting Pipeline</code> · New Stage: <code>Closed Won</code>.</div>
+          </div>
+          <div class="zap-step action">
+            <div class="step-num">02</div>
+            <div class="step-type">Action</div>
+            <div class="step-detail"><strong>HubSpot → Get Contact by ID</strong><br>Retrieve full contact record associated with the deal to pull name + email for the welcome message.</div>
+          </div>
+          <div class="zap-step action">
+            <div class="step-num">03</div>
+            <div class="step-type">Action</div>
+            <div class="step-detail"><strong>Gmail → Send Email</strong><br>To: <code>{{contact_email}}</code> · Subject: <code>Welcome to LUMENORA Consulting™ — Your Engagement Begins Now</code><br>Body: Personalized welcome with next steps, Kickoff Call Calendly link, and 14-business-day delivery confirmation.</div>
+          </div>
+          <div class="zap-step action">
+            <div class="step-num">04</div>
+            <div class="step-type">Action</div>
+            <div class="step-detail"><strong>HubSpot → Update Contact</strong><br>Lifecycle Stage → <code>Customer</code>. Remove from SEQ_04 if still enrolled.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ZAP_06 -->
+    <div class="zap-card" id="zap06">
+      <div class="zap-header" onclick="toggleZap('zap06')">
+        <div class="zap-id-block">
+          <span class="zap-id">ZAP_06</span>
+          <span class="zap-name">Shopify Blog Publish → Buffer Queue (Threads + LinkedIn)</span>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <span class="zap-priority priority-week2">Week 2</span>
+          <span class="zap-toggle">↓</span>
+        </div>
+      </div>
+      <div class="zap-body">
+        <div class="alert gold" style="margin-bottom:20px">
+          <div class="alert-icon">💡</div>
+          <div class="alert-text"><strong>Important</strong> Buffer requires a paid plan ($6/mo) to support 3+ channels. Worth it — this Zap converts every blog post into social content automatically.</div>
+        </div>
+        <div class="zap-steps">
+          <div class="zap-step trigger">
+            <div class="step-num">01</div>
+            <div class="step-type">Trigger</div>
+            <div class="step-detail"><strong>Shopify → New Blog Entry</strong><br>Blog: select your main LUMENORA blog. Status filter: <code>Published</code> only (not draft).</div>
+          </div>
+          <div class="zap-step action">
+            <div class="step-num">02</div>
+            <div class="step-type">Action</div>
+            <div class="step-detail"><strong>Buffer → Add to Queue (Threads)</strong><br>Text: <code>{{blog_title}} — Read the full guide on the LUMENORA blog. Link in bio. #AIAutomation #SmallBusiness #OperateSmarter</code>. Schedule: next available slot.</div>
+          </div>
+          <div class="zap-step action">
+            <div class="step-num">03</div>
+            <div class="step-type">Action</div>
+            <div class="step-detail"><strong>Buffer → Add to Queue (LinkedIn)</strong><br>Text: Professional version — open with the post's key insight, 2–3 supporting lines, and CTA: <code>Full breakdown on the LUMENORA Consulting blog →</code> + post URL. Schedule: 4 hours after Threads post.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ZAP_07 -->
+    <div class="zap-card" id="zap07">
+      <div class="zap-header" onclick="toggleZap('zap07')">
+        <div class="zap-id-block">
+          <span class="zap-id">ZAP_07</span>
+          <span class="zap-name">Gumroad Refund → Remove from Sequences + Tag Contact</span>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <span class="zap-priority priority-week4">Week 4</span>
+          <span class="zap-toggle">↓</span>
+        </div>
+      </div>
+      <div class="zap-body">
+        <div class="zap-steps">
+          <div class="zap-step trigger">
+            <div class="step-num">01</div>
+            <div class="step-type">Trigger</div>
+            <div class="step-detail"><strong>Gumroad → New Refund</strong><br>Triggers when any product refund is processed.</div>
+          </div>
+          <div class="zap-step action">
+            <div class="step-num">02</div>
+            <div class="step-type">Action</div>
+            <div class="step-detail"><strong>HubSpot → Search Contact</strong><br>Find by email: <code>{{refund_email}}</code>.</div>
+          </div>
+          <div class="zap-step action">
+            <div class="step-num">03</div>
+            <div class="step-type">Action</div>
+            <div class="step-detail"><strong>HubSpot → Update Contact</strong><br>Add tag: <code>refunded</code>. Update lifecycle stage back to <code>Lead</code>. Remove from all active purchase sequences (unenroll from SEQ_02 and SEQ_03).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ZAP_08 -->
+    <div class="zap-card" id="zap08">
+      <div class="zap-header" onclick="toggleZap('zap08')">
+        <div class="zap-id-block">
+          <span class="zap-id">ZAP_08</span>
+          <span class="zap-name">Monthly Revenue Report → Google Sheets</span>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <span class="zap-priority priority-week4">Week 4</span>
+          <span class="zap-toggle">↓</span>
+        </div>
+      </div>
+      <div class="zap-body">
+        <div class="alert green" style="margin-bottom:20px">
+          <div class="alert-icon">📊</div>
+          <div class="alert-text"><strong>Build your Google Sheet first.</strong> Required columns: Date · Source (Gumroad/Consulting/Shopify) · Product · Amount · Contact Email · Deal ID. This Zap appends a new row for every closed won deal.</div>
+        </div>
+        <div class="zap-steps">
+          <div class="zap-step trigger">
+            <div class="step-num">01</div>
+            <div class="step-type">Trigger</div>
+            <div class="step-detail"><strong>HubSpot → New Deal</strong><br>Filter: Stage = <code>Closed Won</code>. Fires on every closed deal across both pipelines.</div>
+          </div>
+          <div class="zap-step action">
+            <div class="step-num">02</div>
+            <div class="step-type">Action</div>
+            <div class="step-detail"><strong>Google Sheets → Create Spreadsheet Row</strong><br>Sheet: <code>LUMENORA Revenue Tracker</code> · Worksheet: <code>All Deals</code>. Map: Date → <code>{{close_date}}</code> · Amount → <code>{{amount}}</code> · Deal Name → <code>{{dealname}}</code> · Pipeline → <code>{{pipeline}}</code>.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /zap-grid -->
+</div>
+
+<!-- ============================================================ -->
+<!-- SEQUENCES PANEL -->
+<!-- ============================================================ -->
+<div class="panel" id="panel-sequences">
+  <div class="section-title"><em>HubSpot</em> Email Sequences</div>
+  <div class="section-desc">Complete copy for all 4 sequences. Click to expand each. Every email is written in LUMENORA brand voice — intelligent, warm, outcome-first.</div>
+
+  <div class="seq-grid">
+
+    <!-- SEQ_01 -->
+    <div class="seq-card" id="seq01">
+      <div class="seq-header" onclick="toggleSeq('seq01')">
+        <div class="seq-meta">
+          <span class="seq-id">SEQ_01</span>
+          <span class="seq-name">Welcome Nurture — Lead Magnet Subscribers</span>
+        </div>
+        <div class="seq-stats">
+          <span class="seq-stat">5 Emails · 10 Days</span>
+          <span class="zap-toggle" style="font-size:18px;color:var(--warm-gray)">↓</span>
+        </div>
+      </div>
+      <div class="seq-body">
+        <div class="email-strip">
+          <div class="email-meta">
+            <span class="email-day">Day 0</span>
+            <span class="email-subject">"Your guide is inside — and so is something else."</span>
+          </div>
+          <div class="email-goal">Goal: Deliver lead magnet + introduce the LUMENORA philosophy</div>
+          <div class="email-body-preview">Hi {{firstname}},
+
+Your guide is attached — but before you open it, I want you to know something.
+
+This isn't just a download. It's a starting point.
+
+Everything inside was built around one belief: that the businesses that win in the next five years won't be the ones working hardest. They'll be the ones working with the most intelligent systems.
+
+That's what LUMENORA Consulting exists to build.
+
+Start with the guide. When you're ready to go deeper, I'm here.
+
+— Angela
+Founder, LUMENORA Consulting™</div>
+          <div class="email-cta">→ CTA: [Download Your Guide] button + reply prompt: "Reply with your biggest operational challenge."</div>
+        </div>
+
+        <div class="email-strip">
+          <div class="email-meta">
+            <span class="email-day">Day 2</span>
+            <span class="email-subject">"The bottleneck I see in almost every service business"</span>
+          </div>
+          <div class="email-goal">Goal: Position expertise + surface a pain point they recognize</div>
+          <div class="email-body-preview">Hi {{firstname}},
+
+After working with service businesses across photography, interior design, and consulting — the same bottleneck shows up every time.
+
+It's not lack of clients.
+It's not lack of talent.
+
+It's the gap between inquiry and delivery — the invisible hours spent on admin, follow-up, onboarding, and communication that never shows up in your pricing but always shows up in your exhaustion.
+
+The businesses that close that gap first don't just become more profitable. They become more referable.
+
+That's the work LUMENORA Consulting does.
+
+Tomorrow I'll show you exactly what that looks like in practice.
+
+— Angela</div>
+          <div class="email-cta">→ CTA: None — curiosity close into Day 4 email.</div>
+        </div>
+
+        <div class="email-strip">
+          <div class="email-meta">
+            <span class="email-day">Day 4</span>
+            <span class="email-subject">"What a 3-person design studio automated in 14 days"</span>
+          </div>
+          <div class="email-goal">Goal: Social proof + demonstrate tangible outcome</div>
+          <div class="email-body-preview">Hi {{firstname}},
+
+A creative studio came to us spending 12+ hours a week on client intake, proposal follow-up, and onboarding coordination.
+
+In 14 business days, we built them:
+→ An automated CRM intake system that captures, scores, and routes every inquiry
+→ A proposal delivery workflow that sends, follows up, and tracks opens automatically
+→ An onboarding sequence that delivers every document and sets expectations before the first call
+
+The result: 9 hours reclaimed per week. Zero dropped inquiries. Proposal acceptance rate up 28%.
+
+That's what intelligent systems do for a service business.
+
+If you're curious what this could look like for yours, reply with your current team size and the process that costs you the most time.
+
+— Angela</div>
+          <div class="email-cta">→ CTA: Soft reply invite — no hard sell.</div>
+        </div>
+
+        <div class="email-strip">
+          <div class="email-meta">
+            <span class="email-day">Day 7</span>
+            <span class="email-subject">"What we actually build (and how long it takes)"</span>
+          </div>
+          <div class="email-goal">Goal: Educate on services + anchor pricing expectation</div>
+          <div class="email-body-preview">Hi {{firstname}},
+
+I get asked a lot: "What exactly does LUMENORA Consulting do?"
+
+Here's the honest answer:
+
+We build the operational infrastructure that lets service businesses run intelligently — without requiring you to be available 24 hours a day to hold it together.
+
+In practice, that means CRM systems, automated client workflows, email nurture sequences, AI-powered intake and onboarding, and the integrations that connect all of it seamlessly.
+
+Every engagement is done-for-you. You complete intake. We build. You receive a fully operational system in 14 business days.
+
+Engagements start at $1,500.
+
+If that sounds like what you've been looking for, the next step is a no-pressure Discovery Call.
+
+[Book a Discovery Call →]
+
+— Angela</div>
+          <div class="email-cta">→ CTA: Calendly Discovery Call link</div>
+        </div>
+
+        <div class="email-strip">
+          <div class="email-meta">
+            <span class="email-day">Day 10</span>
+            <span class="email-subject">"Last thing — then I'll leave you alone."</span>
+          </div>
+          <div class="email-goal">Goal: Final soft CTA — close the welcome sequence</div>
+          <div class="email-body-preview">Hi {{firstname}},
+
+This is the last email in this series — I don't believe in staying in your inbox uninvited.
+
+But before I go: if you've been quietly wondering whether a CRM system or automation build would actually make a difference for your business — it will.
+
+Not because I'm selling it. Because I've watched service business owners reclaim 8–12 hours a week consistently once the right systems are in place.
+
+If you want to explore what that looks like for you specifically, a 30-minute Discovery Call is the right next step. No pitch. Just clarity.
+
+[Book a Discovery Call →]
+
+If now isn't the right time, that's okay too. I'll be here when it is.
+
+— Angela
+LUMENORA Consulting™ — Operate Smarter, Not Harder.</div>
+          <div class="email-cta">→ CTA: Calendly Discovery Call link</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEQ_02 -->
+    <div class="seq-card" id="seq02">
+      <div class="seq-header" onclick="toggleSeq('seq02')">
+        <div class="seq-meta">
+          <span class="seq-id">SEQ_02</span>
+          <span class="seq-name">Post-Purchase — $37 Buyers (The AI Blueprint)</span>
+        </div>
+        <div class="seq-stats">
+          <span class="seq-stat">3 Emails · 7 Days</span>
+          <span class="zap-toggle" style="font-size:18px;color:var(--warm-gray)">↓</span>
+        </div>
+      </div>
+      <div class="seq-body">
+        <div class="email-strip">
+          <div class="email-meta">
+            <span class="email-day">Day 0</span>
+            <span class="email-subject">"You made a good decision."</span>
+          </div>
+          <div class="email-goal">Goal: Confirm purchase + deliver access + warm brand moment</div>
+          <div class="email-body-preview">Hi {{firstname}},
+
+The AI Blueprint is yours.
+
+Inside, you'll find everything you need to start integrating AI into your business operations — without the overwhelm, without the guesswork.
+
+[Access Your Product →]
+
+One thing before you dive in: the people who get the most from this guide aren't the ones who read it fastest. They're the ones who implement one thing at a time, deliberately.
+
+Pick one section. Apply it this week. Notice what changes.
+
+Welcome to a smarter way of working.
+
+— Angela
+LUMENORA Consulting™</div>
+          <div class="email-cta">→ CTA: [Access Your Product] — Gumroad download link</div>
+        </div>
+
+        <div class="email-strip">
+          <div class="email-meta">
+            <span class="email-day">Day 3</span>
+            <span class="email-subject">"How's it going? (Honest check-in)"</span>
+          </div>
+          <div class="email-goal">Goal: Engagement + surface objections + bridge to higher product</div>
+          <div class="email-body-preview">Hi {{firstname}},
+
+Three days in — how are you finding The AI Blueprint?
+
+If you've already started implementing: that's exactly the right instinct. Keep going.
+
+If it's still sitting in your downloads: that's also normal. The gap between knowing and doing is real — and it's usually not a motivation problem, it's a systems problem.
+
+That's actually why we built The AI Automation Empire™.
+
+It takes everything in the Blueprint and shows you how to build the full operational infrastructure around it — tools, workflows, integrations, and the exact stack we use with consulting clients.
+
+If you're ready for the complete picture: [Explore The AI Automation Empire™ →]
+
+— Angela</div>
+          <div class="email-cta">→ CTA: Link to AI Automation Empire ($197) product page</div>
+        </div>
+
+        <div class="email-strip">
+          <div class="email-meta">
+            <span class="email-day">Day 7</span>
+            <span class="email-subject">"One more thing worth knowing."</span>
+          </div>
+          <div class="email-goal">Goal: Final upsell touch + consulting bridge</div>
+          <div class="email-body-preview">Hi {{firstname}},
+
+This is a short one.
+
+If you've worked through the Blueprint and you're realizing you want this built for your business — not just guided through it yourself — that's what LUMENORA Consulting exists for.
+
+We take the strategy and we build the system, done-for-you, in 14 business days.
+
+Engagements start at $1,500.
+
+[Book a Discovery Call →]
+
+Either way — thank you for trusting LUMENORA with this part of your business. It means something.
+
+— Angela</div>
+          <div class="email-cta">→ CTA: Calendly Discovery Call link</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEQ_03 -->
+    <div class="seq-card" id="seq03">
+      <div class="seq-header" onclick="toggleSeq('seq03')">
+        <div class="seq-meta">
+          <span class="seq-id">SEQ_03</span>
+          <span class="seq-name">Post-Purchase — $197 Buyers + Consulting Bridge</span>
+        </div>
+        <div class="seq-stats">
+          <span class="seq-stat">3 Emails · 10 Days</span>
+          <span class="zap-toggle" style="font-size:18px;color:var(--warm-gray)">↓</span>
+        </div>
+      </div>
+      <div class="seq-body">
+        <div class="email-strip">
+          <div class="email-meta">
+            <span class="email-day">Day 0</span>
+            <span class="email-subject">"This is where your business changes."</span>
+          </div>
+          <div class="email-goal">Goal: Premium buyer affirmation + access + set high expectations</div>
+          <div class="email-body-preview">Hi {{firstname}},
+
+You just made one of the highest-leverage investments available for a service business right now.
+
+[Access Your Product →]
+
+What's inside isn't content for the sake of content. It's an operational blueprint — built around what actually works, not what sounds good.
+
+Work through it at your own pace. But know this: every module is designed to be implemented, not just consumed.
+
+When you're ready to have a real conversation about your business specifically, my calendar is open.
+
+— Angela
+LUMENORA Consulting™ — Operate Smarter, Not Harder.</div>
+          <div class="email-cta">→ CTA: [Access Your Product] + [Book a Discovery Call] (secondary)</div>
+        </div>
+
+        <div class="email-strip">
+          <div class="email-meta">
+            <span class="email-day">Day 5</span>
+            <span class="email-subject">"You're likely 60% of the way there. Here's the rest."</span>
+          </div>
+          <div class="email-goal">Goal: Bridge from DIY to done-for-you consulting</div>
+          <div class="email-body-preview">Hi {{firstname}},
+
+By now you've likely worked through a significant portion of the material.
+
+Here's something I've noticed with our highest-performing clients: the gap isn't usually understanding — it's implementation. Knowing exactly what to build is different from having the technical capacity to build it.
+
+That's where LUMENORA Consulting becomes the logical next step.
+
+If you'd like to explore what a done-for-you engagement would look like for your specific business — what we'd build, what it would cost, and what your operation would look like in 30 days — a Discovery Call is the right next step.
+
+No pressure. Just clarity.
+
+[Book a Discovery Call →]
+
+— Angela</div>
+          <div class="email-cta">→ CTA: Calendly Discovery Call link</div>
+        </div>
+
+        <div class="email-strip">
+          <div class="email-meta">
+            <span class="email-day">Day 10</span>
+            <span class="email-subject">"A genuine question."</span>
+          </div>
+          <div class="email-goal">Goal: Relationship close — reply-based engagement</div>
+          <div class="email-body-preview">Hi {{firstname}},
+
+One genuine question before I wrap up this sequence:
+
+What's the one operational problem in your business that, if solved, would change everything?
+
+Reply to this email. I read every response personally.
+
+If it's something we can help with, I'll tell you honestly. If it's not, I'll point you in the right direction.
+
+That's how I operate.
+
+— Angela
+LUMENORA Consulting™</div>
+          <div class="email-cta">→ CTA: Reply-based — no link. Pure relationship builder.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEQ_04 -->
+    <div class="seq-card" id="seq04">
+      <div class="seq-header" onclick="toggleSeq('seq04')">
+        <div class="seq-meta">
+          <span class="seq-id">SEQ_04</span>
+          <span class="seq-name">Consulting Prospect Nurture — Form Submitters</span>
+        </div>
+        <div class="seq-stats">
+          <span class="seq-stat">4 Emails · 14 Days</span>
+          <span class="zap-toggle" style="font-size:18px;color:var(--warm-gray)">↓</span>
+        </div>
+      </div>
+      <div class="seq-body">
+        <div class="email-strip">
+          <div class="email-meta">
+            <span class="email-day">Day 0</span>
+            <span class="email-subject">"I received your inquiry — here's what happens next."</span>
+          </div>
+          <div class="email-goal">Goal: Immediate confirmation + set professional expectation</div>
+          <div class="email-body-preview">Hi {{firstname}},
+
+Thank you for reaching out to LUMENORA Consulting.
+
+I've received your inquiry and I'll be in touch personally within 1–2 business days.
+
+In the meantime, here's what the process typically looks like:
+
+1. Discovery Call (30 min) — We clarify your current operations, goals, and where the highest-leverage opportunities are.
+2. Proposal — I'll send a custom scope and investment overview within 48 hours of our call.
+3. Engagement Begins — Upon deposit, your 14-business-day build timeline starts.
+
+If you'd like to get ahead of the process, you're welcome to book a Discovery Call directly here:
+[Book a Discovery Call →]
+
+Looking forward to the conversation.
+
+— Angela
+LUMENORA Consulting™</div>
+          <div class="email-cta">→ CTA: Calendly Kickoff Call link</div>
+        </div>
+
+        <div class="email-strip">
+          <div class="email-meta">
+            <span class="email-day">Day 3</span>
+            <span class="email-subject">"What a LUMENORA Consulting engagement actually looks like"</span>
+          </div>
+          <div class="email-goal">Goal: Overcome "what do I get?" objection before the discovery call</div>
+          <div class="email-body-preview">Hi {{firstname}},
+
+Before we connect, I want to give you a clear picture of what a LUMENORA Consulting engagement delivers.
+
+Every engagement is done-for-you. You complete a structured intake form. I build. You receive a fully operational system — typically within 14 business days.
+
+Depending on your tier, that system includes some combination of:
+→ CRM setup and configuration (HubSpot or equivalent)
+→ Automated client intake and inquiry routing
+→ Email nurture sequences and follow-up workflows
+→ Onboarding automation and document delivery
+→ AI-powered operational tools calibrated to your business
+
+Pricing starts at $1,500 (Starter) and scales to $15,000 (Elite).
+
+The right fit becomes clear in a 30-minute conversation.
+
+[Schedule Your Discovery Call →]
+
+— Angela</div>
+          <div class="email-cta">→ CTA: Calendly Discovery Call link</div>
+        </div>
+
+        <div class="email-strip">
+          <div class="email-meta">
+            <span class="email-day">Day 7</span>
+            <span class="email-subject">"Still thinking it over? Here's what I'd tell you."</span>
+          </div>
+          <div class="email-goal">Goal: Address hesitation + create urgency without pressure</div>
+          <div class="email-body-preview">Hi {{firstname}},
+
+If you're still evaluating whether this is the right investment, here's the honest framework I'd use:
+
+Ask yourself: How much does your current operational friction cost you per month — in lost time, dropped leads, and delayed deliverables?
+
+If the answer is more than $1,500 worth of value, the math is straightforward.
+
+If you're not sure — that's exactly what the Discovery Call is for. We'll look at your business together and I'll tell you honestly whether we're the right fit.
+
+No commitment required. Just clarity.
+
+[Book a 30-Minute Discovery Call →]
+
+— Angela</div>
+          <div class="email-cta">→ CTA: Calendly Discovery Call link</div>
+        </div>
+
+        <div class="email-strip">
+          <div class="email-meta">
+            <span class="email-day">Day 14</span>
+            <span class="email-subject">"Closing the loop."</span>
+          </div>
+          <div class="email-goal">Goal: Final graceful close — keep the relationship warm</div>
+          <div class="email-body-preview">Hi {{firstname}},
+
+I'm closing the loop on your inquiry from two weeks ago.
+
+If the timing wasn't right, I completely understand — and I want you to know the door stays open.
+
+When you're ready to build the systems that let your business run intelligently, we'll be here.
+
+In the meantime, our blog has practical guidance on AI automation and operational strategy for service businesses: [Visit the LUMENORA Blog →]
+
+Thank you for considering LUMENORA Consulting. It means something.
+
+— Angela
+LUMENORA Consulting™ — Operate Smarter, Not Harder.</div>
+          <div class="email-cta">→ CTA: Shopify blog link (soft re-engagement into content loop)</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /seq-grid -->
+</div>
+
+<!-- ============================================================ -->
+<!-- HTML PLACEHOLDERS PANEL -->
+<!-- ============================================================ -->
+<div class="panel" id="panel-html">
+  <div class="section-title"><em>HTML</em> Form Placeholders</div>
+  <div class="section-desc">Every placeholder that must be replaced in your three HTML files before going live. Collect your HubSpot Portal ID and Form GUIDs first — then paste and publish.</div>
+
+  <div class="alert red">
+    <div class="alert-icon">⛔</div>
+    <div class="alert-text">
+      <strong>Nothing works until these are replaced.</strong> Your HubSpot forms will not submit, contacts will not be created, and ZAP_01 and ZAP_04 will never fire until every placeholder below is replaced with a real value.
+    </div>
+  </div>
+
+  <table class="placeholder-table">
+    <thead>
+      <tr>
+        <th>Placeholder</th>
+        <th>What It Is</th>
+        <th>Where to Find It</th>
+        <th>Files Affected</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>YOUR_PORTAL_ID</td>
+        <td>Your HubSpot account portal ID — numeric, 9 digits</td>
+        <td>HubSpot → Settings → Account Defaults → HubSpot Account ID</td>
+        <td>lead-magnet.html, index.html, consulting.html</td>
+      </tr>
+      <tr>
+        <td>YOUR_LEAD_MAGNET_FORM_GUID</td>
+        <td>The unique ID of your lead magnet opt-in form</td>
+        <td>HubSpot → Marketing → Forms → [Form Name] → Embed → look for formId in the embed code</td>
+        <td>lead-magnet.html, index.html</td>
+      </tr>
+      <tr>
+        <td>YOUR_CONSULTING_FORM_GUID</td>
+        <td>The unique ID of your consulting inquiry form</td>
+        <td>HubSpot → Marketing → Forms → Consulting Inquiry → Embed → formId</td>
+        <td>consulting.html</td>
+      </tr>
+      <tr>
+        <td>YOUR_CALENDLY_DISCOVERY_URL</td>
+        <td>Your Calendly Discovery Call booking link</td>
+        <td>Calendly → Event Types → Discovery Call → Copy Link</td>
+        <td>consulting.html, index.html</td>
+      </tr>
+      <tr>
+        <td>YOUR_GUMROAD_PRODUCT_URL_37</td>
+        <td>Direct Gumroad link to The AI Blueprint ($37)</td>
+        <td>Gumroad → Products → The AI Blueprint → Share Link</td>
+        <td>index.html</td>
+      </tr>
+      <tr>
+        <td>YOUR_GUMROAD_PRODUCT_URL_197</td>
+        <td>Direct Gumroad link to AI Automation Empire™ ($197)</td>
+        <td>Gumroad → Products → AI Automation Empire™ → Share Link</td>
+        <td>index.html</td>
+      </tr>
+      <tr>
+        <td>YOUR_EMAIL@gmail.com</td>
+        <td>Your personal Gmail for internal alert emails (ZAP_04)</td>
+        <td>Your own email address</td>
+        <td>Zapier ZAP_04 config</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-title" style="font-size:24px;margin-bottom:12px">HubSpot <em>Embed Code</em> Pattern</div>
+  <div class="section-desc">Use this exact pattern when embedding your HubSpot forms into your HTML files. Replace the three red placeholders.</div>
+
+  <div class="html-block">
+    <div class="html-block-header">
+      <span class="html-block-title">HubSpot Form Embed — Standard Pattern</span>
+      <button class="copy-btn" onclick="copyCode('embed-code', this)">Copy</button>
+    </div>
+    <div class="code-block" id="embed-code"><span class="c-comment">&lt;!-- Place in &lt;head&gt; --&gt;</span>
+<span class="c-tag">&lt;script</span> <span class="c-attr">charset</span>=<span class="c-val">"utf-8"</span> <span class="c-attr">type</span>=<span class="c-val">"text/javascript"</span>
+  <span class="c-attr">src</span>=<span class="c-val">"//js.hsforms.net/forms/embed/v2.js"</span><span class="c-tag">&gt;&lt;/script&gt;</span>
+
+<span class="c-comment">&lt;!-- Place where form should appear in &lt;body&gt; --&gt;</span>
+<span class="c-tag">&lt;div</span> <span class="c-attr">id</span>=<span class="c-val">"hubspot-form-container"</span><span class="c-tag">&gt;&lt;/div&gt;</span>
+
+<span class="c-tag">&lt;script&gt;</span>
+  hbspt.forms.create({
+    region: <span class="c-val">"na1"</span>,
+    portalId: <span class="c-placeholder">"YOUR_PORTAL_ID"</span>,
+    formId: <span class="c-placeholder">"YOUR_FORM_GUID"</span>,
+    target: <span class="c-val">"#hubspot-form-container"</span>,
+    onFormSubmit: function($form) {
+      <span class="c-comment">// Optional: fire a custom event for analytics</span>
+      console.log(<span class="c-val">"Form submitted"</span>);
+    }
+  });
+<span class="c-tag">&lt;/script&gt;</span></div>
+  </div>
+
+  <div class="html-block">
+    <div class="html-block-header">
+      <span class="html-block-title">ZAP_04 Internal Alert Email — Gmail Body Template</span>
+      <button class="copy-btn" onclick="copyCode('alert-template', this)">Copy</button>
+    </div>
+    <div class="code-block" id="alert-template">Subject: 🔥 New Consulting Inquiry — {{firstname}} {{lastname}}
+
+--- LUMENORA CONSULTING — NEW INQUIRY ALERT ---
+
+Name:     {{firstname}} {{lastname}}
+Email:    {{email}}
+Business: {{company}}
+Message:  {{message}}
+
+Submitted: {{submission_timestamp}}
+Source:    Consulting Inquiry Form
+
+ACTION REQUIRED: Respond within 2 business hours.
+SEQ_04 has been enrolled automatically.
+
+[View in HubSpot →] {{hs_contact_link}}
+
+--- LUMENORA OPS ALERT SYSTEM ---</div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- REVENUE MAP PANEL -->
+<!-- ============================================================ -->
+<div class="panel" id="panel-revenue">
+  <div class="section-title">Revenue <em>Path Map</em></div>
+  <div class="section-desc">How every customer enters, ascends, and converts. The entire funnel optimized for maximum lifetime value per contact.</div>
+
+  <table class="rev-table" style="margin-bottom:32px">
+    <thead>
+      <tr>
+        <th>Entry Point</th>
+        <th>ZAP Fires</th>
+        <th>Sequence Enrolled</th>
+        <th>Ascension Path</th>
+        <th>Max LTV</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Lead Magnet Opt-In</td>
+        <td class="gold">ZAP_01</td>
+        <td>SEQ_01 (5 emails, 10 days)</td>
+        <td>→ $37 product → $197 product → Consulting</td>
+        <td class="green">$15,000+</td>
+      </tr>
+      <tr>
+        <td>Gumroad $37 Purchase</td>
+        <td class="gold">ZAP_02</td>
+        <td>SEQ_02 (3 emails, 7 days)</td>
+        <td>→ $197 upsell → Consulting inquiry</td>
+        <td class="green">$15,197</td>
+      </tr>
+      <tr>
+        <td>Gumroad $197 Purchase</td>
+        <td class="gold">ZAP_03</td>
+        <td>SEQ_03 (3 emails, 10 days)</td>
+        <td>→ Direct consulting inquiry</td>
+        <td class="green">$15,197</td>
+      </tr>
+      <tr>
+        <td>Consulting Form</td>
+        <td class="gold">ZAP_04</td>
+        <td>SEQ_04 (4 emails, 14 days)</td>
+        <td>→ Discovery Call → Proposal → Closed Won</td>
+        <td class="green">$15,000</td>
+      </tr>
+      <tr>
+        <td>Shopify Blog Post</td>
+        <td class="gold">ZAP_06</td>
+        <td>None (social traffic play)</td>
+        <td>→ Store visit → Lead magnet → SEQ_01</td>
+        <td class="green">$15,000+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="alert green">
+    <div class="alert-icon">📈</div>
+    <div class="alert-text">
+      <strong>The Compound Effect</strong>
+      This system doesn't require new traffic to increase revenue. Every existing subscriber has an automated ascension path to consulting. A single consulting close from an email subscriber who entered at $0 (lead magnet) represents a 100% margin on all acquisition cost. Build the system once — the compound effect begins immediately.
+    </div>
+  </div>
+
+  <table class="rev-table">
+    <thead>
+      <tr>
+        <th>Consulting Tier</th>
+        <th>Price</th>
+        <th>Deposit (50%)</th>
+        <th>Delivery Standard</th>
+        <th>Closes Per Month Needed for $10K</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Starter</td>
+        <td class="gold">$1,500 – $2,500</td>
+        <td>$750 – $1,250</td>
+        <td>14 business days</td>
+        <td class="green">4–7 clients</td>
+      </tr>
+      <tr>
+        <td>Growth</td>
+        <td class="gold">$4,500 – $6,500</td>
+        <td>$2,250 – $3,250</td>
+        <td>14 business days</td>
+        <td class="green">2–3 clients</td>
+      </tr>
+      <tr>
+        <td>Elite</td>
+        <td class="gold">$9,500 – $15,000</td>
+        <td>$4,750 – $7,500</td>
+        <td>14 business days</td>
+        <td class="green">1 client</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div><!-- /main -->
+
+<script>
+function showPanel(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function toggleZap(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle('open');
+}
+
+function toggleSeq(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle('open');
+}
+
+function toggleCheck(el) {
+  el.classList.toggle('done');
+  el.querySelector('.phase-check').textContent = el.classList.contains('done') ? '✓' : '✓';
+}
+
+function copyCode(id, btn) {
+  const el = document.getElementById(id);
+  const text = el.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy';
+      btn.classList.remove('copied');
+    }, 2500);
+  });
+}
+</script>
+</body>
+</html>
