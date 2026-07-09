@@ -190,6 +190,50 @@ setup:
 | `npm run db:seed`     | Seed demo data                                 |
 | `npm run db:studio`   | Open Prisma Studio                             |
 
+## Deploying to Vercel
+
+This app deploys cleanly to Vercel. Since it lives in the `meeting-agent/`
+subdirectory of the repo (not the repo root), there's one extra setting to
+get right.
+
+1. **Get a serverless-friendly Postgres database.** Vercel's functions are
+   short-lived, so you need a provider with connection pooling —
+   [Neon](https://neon.tech) or [Supabase](https://supabase.com) both have
+   free tiers and work well with Prisma. Grab two connection strings from
+   your provider: the **pooled** one (for `DATABASE_URL`) and the **direct**
+   one (for `DIRECT_URL`, used only for running migrations).
+2. **Import the repo into Vercel** and set the **Root Directory** to
+   `meeting-agent` in the project's settings (Vercel scans the repo root by
+   default and won't find the Next.js app otherwise).
+3. **Set environment variables** in the Vercel project (Settings →
+   Environment Variables) — same names as `.env.example`:
+   - `DATABASE_URL`, `DIRECT_URL`
+   - `NEXTAUTH_SECRET` (generate with `openssl rand -base64 32`)
+   - `NEXTAUTH_URL` — set this to your Vercel URL once you have it (e.g.
+     `https://your-app.vercel.app`); redeploy after setting it
+   - `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` (optional — see below)
+   - `ANTHROPIC_API_KEY` / `AI_MODEL` (optional — falls back to the mock
+     generator if unset, same as local dev)
+   - `ENABLE_DEMO_LOGIN="true"` if you want a one-click way to view the app
+     without setting up Google OAuth first (see the caveat below)
+4. **Push the schema and seed data to the production database** from your
+   machine, pointed at the same `DATABASE_URL`/`DIRECT_URL` you gave Vercel:
+   ```bash
+   npm run db:push
+   npm run db:seed
+   ```
+5. **Deploy.** Vercel will run `npm install` (which runs `prisma generate`
+   via the `postinstall` script) and `next build` automatically.
+6. **If you enabled Google OAuth**, add the production redirect URI in the
+   Google Cloud Console: `https://your-app.vercel.app/api/auth/callback/google`.
+
+**Caveat on `ENABLE_DEMO_LOGIN` in production:** it signs *any* visitor in as
+the same shared seeded demo account — fine for quickly sharing a clickable
+preview, but anyone with the URL can see and edit that account's data (no
+real Google account or email is ever touched by it). Turn it off
+(`ENABLE_DEMO_LOGIN="false"` or unset, then redeploy) once you don't want the
+app to be walk-up-and-use.
+
 ## Known limitations (MVP scope)
 
 - Linking a second OAuth provider (e.g. Google) to an account that
