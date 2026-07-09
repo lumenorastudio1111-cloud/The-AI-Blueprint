@@ -1,0 +1,225 @@
+// Meeting Prep + Follow-up Agent - Prisma schema
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Auth (NextAuth.js standard models, extended with product fields on User)
+// ---------------------------------------------------------------------------
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Settings
+  aiTone         AiTone @default(CONSULTATIVE)
+  emailSignature String @default("")
+
+  // Billing placeholder
+  plan PlanTier @default(FREE)
+
+  accounts          Account[]
+  sessions          Session[]
+  connectedAccounts ConnectedAccount[]
+  meetings          Meeting[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ---------------------------------------------------------------------------
+// Product models
+// ---------------------------------------------------------------------------
+
+enum AiTone {
+  FORMAL
+  FRIENDLY
+  CONCISE
+  CONSULTATIVE
+}
+
+enum PlanTier {
+  FREE
+  PRO
+  TEAM
+}
+
+enum ConnectedProvider {
+  GOOGLE_CALENDAR
+  GMAIL
+}
+
+enum ConnectionStatus {
+  CONNECTED
+  DISCONNECTED
+  ERROR
+}
+
+// A single Google sign-in grants both Calendar and Gmail scopes, but we model
+// each as its own "connection" row so the dashboard can show independent
+// connect/disconnect status per surface (calendar vs. mail) as required by
+// the product spec, and so re-auth of a single scope is possible later.
+model ConnectedAccount {
+  id           String            @id @default(cuid())
+  userId       String
+  provider     ConnectedProvider
+  status       ConnectionStatus  @default(CONNECTED)
+  email        String?
+  scopes       String[]
+  connectedAt  DateTime          @default(now())
+  lastSyncedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, provider])
+}
+
+enum MeetingStatus {
+  UPCOMING
+  COMPLETED
+  CANCELLED
+}
+
+model Meeting {
+  id            String        @id @default(cuid())
+  userId        String
+  googleEventId String?
+  title         String
+  description   String?       @db.Text
+  location      String?
+  meetingLink   String?
+  startTime     DateTime
+  endTime       DateTime
+  status        MeetingStatus @default(UPCOMING)
+  attendees     Json // Attendee[]
+  organizerEmail String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  user    User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  brief   MeetingBrief?
+  summary MeetingSummary?
+  drafts  EmailDraft[]
+
+  @@unique([userId, googleEventId])
+  @@index([userId, startTime])
+}
+
+enum GenerationStatus {
+  NOT_STARTED
+  GENERATING
+  READY
+  ERROR
+}
+
+model MeetingBrief {
+  id     String @id @default(cuid())
+  meetingId String @unique
+
+  status GenerationStatus @default(NOT_STARTED)
+  error  String?
+
+  attendeeContext     Json? // AttendeeContext[]
+  companyContext      String? @db.Text
+  recentEmailContext  Json? // EmailContextItem[]
+  priorMeetingContext String? @db.Text
+  likelyGoals         Json? // string[]
+  suggestedQuestions  Json? // string[]
+  risks               Json? // string[]
+
+  generatedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  meeting Meeting @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+}
+
+model MeetingSummary {
+  id        String @id @default(cuid())
+  meetingId String @unique
+
+  status GenerationStatus @default(NOT_STARTED)
+  error  String?
+
+  summary   String? @db.Text
+  decisions Json? // string[]
+
+  generatedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  meeting     Meeting      @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  actionItems ActionItem[]
+}
+
+model ActionItem {
+  id               String    @id @default(cuid())
+  meetingSummaryId String
+  description      String    @db.Text
+  owner            String?
+  dueDate          DateTime?
+  completed        Boolean   @default(false)
+  createdAt        DateTime  @default(now())
+
+  meetingSummary MeetingSummary @relation(fields: [meetingSummaryId], references: [id], onDelete: Cascade)
+}
+
+enum DraftStatus {
+  DRAFT
+  SENT
+}
+
+model EmailDraft {
+  id        String      @id @default(cuid())
+  meetingId String
+  subject   String
+  body      String      @db.Text
+  status    DraftStatus @default(DRAFT)
+  sentAt    DateTime?
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  meeting Meeting @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+}
