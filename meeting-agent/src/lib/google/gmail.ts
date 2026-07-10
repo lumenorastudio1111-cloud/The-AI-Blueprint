@@ -55,31 +55,3 @@ export async function fetchRecentEmailContext(
 
   return results.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
-
-/**
- * Sends a follow-up email via Gmail on behalf of the connected user.
- */
-export async function sendGmailMessage(
-  client: OAuth2Client,
-  { to, subject, body }: { to: string[]; subject: string; body: string }
-) {
-  const gmail = google.gmail({ version: "v1", auth: client });
-
-  const messageLines = [
-    `To: ${to.join(", ")}`,
-    `Subject: ${subject}`,
-    "Content-Type: text/plain; charset=utf-8",
-    "",
-    body,
-  ];
-  const raw = Buffer.from(messageLines.join("\n"))
-    .toString("base64")
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/, "");
-
-  await gmail.users.messages.send({
-    userId: "me",
-    requestBody: { raw },
-  });
-}

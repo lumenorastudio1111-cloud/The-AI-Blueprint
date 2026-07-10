@@ -174,9 +174,12 @@ setup:
   generator unless `ANTHROPIC_API_KEY` is set).
 - "Sync calendar" requires a connected Google account and will show an
   error toast otherwise — this is expected without real Calendar access.
-- "Send email" simulates the send (logs to the server console and marks
-  the draft as sent) when no Google account is connected, so the full
-  UI flow is still testable end-to-end.
+- "Send via email client" works with or without a connected Google
+  account: Google OAuth is scoped to `calendar.readonly` + `gmail.readonly`
+  only (no `gmail.send`), so the app never sends email via the Gmail API on
+  your behalf. Instead it marks the draft as sent for meeting-history
+  purposes and opens a `mailto:` link, pre-addressed and pre-filled, in your
+  default mail app for you to actually send.
 
 ## Useful scripts
 

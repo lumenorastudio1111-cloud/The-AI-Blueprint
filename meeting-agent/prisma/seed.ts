@@ -44,10 +44,7 @@ async function main() {
       provider: "GMAIL",
       status: "CONNECTED",
       email: DEMO_EMAIL,
-      scopes: [
-        "https://www.googleapis.com/auth/gmail.readonly",
-        "https://www.googleapis.com/auth/gmail.send",
-      ],
+      scopes: ["https://www.googleapis.com/auth/gmail.readonly"],
       lastSyncedAt: new Date(),
     },
   });

@@ -11,7 +11,6 @@ const GOOGLE_SCOPES = [
   "profile",
   "https://www.googleapis.com/auth/calendar.readonly",
   "https://www.googleapis.com/auth/gmail.readonly",
-  "https://www.googleapis.com/auth/gmail.send",
 ].join(" ");
 
 // Demo login lets reviewers explore the full product without configuring

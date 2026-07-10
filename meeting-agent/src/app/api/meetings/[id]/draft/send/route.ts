@@ -1,12 +1,16 @@
 import { NextResponse } from "next/server";
 
-import { getGoogleClientForUser } from "@/lib/google/client";
-import { sendGmailMessage } from "@/lib/google/gmail";
 import { getOwnedMeeting } from "@/lib/meetingAccess";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/session";
 import type { Attendee } from "@/types";
 
+// Google OAuth is scoped to calendar.readonly + gmail.readonly only (no
+// gmail.send), so this app never sends email via the Gmail API on the
+// user's behalf. Instead, this route just records the draft as sent for
+// meeting-history purposes; the actual send happens through a `mailto:`
+// link the client opens in the user's own mail client (see
+// DraftEmailEditor.tsx).
 export async function POST(_req: Request, { params }: { params: { id: string } }) {
   const session = await getSession();
   if (!session?.user?.id) {
@@ -32,25 +36,10 @@ export async function POST(_req: Request, { params }: { params: { id: string } }
     return NextResponse.json({ error: "Meeting has no attendee email addresses" }, { status: 400 });
   }
 
-  const client = await getGoogleClientForUser(session.user.id);
+  const updated = await prisma.emailDraft.update({
+    where: { id: draft.id },
+    data: { status: "SENT", sentAt: new Date() },
+  });
 
-  try {
-    if (client) {
-      await sendGmailMessage(client, { to: recipients, subject: draft.subject, body: draft.body });
-    } else {
-      // No connected Gmail account (e.g. demo login) - simulate the send so
-      // the flow can still be exercised end-to-end locally.
-      console.log(`[demo] Simulated send to ${recipients.join(", ")}: ${draft.subject}`);
-    }
-
-    const updated = await prisma.emailDraft.update({
-      where: { id: draft.id },
-      data: { status: "SENT", sentAt: new Date() },
-    });
-
-    return NextResponse.json({ draft: updated });
-  } catch (error) {
-    console.error("[draft/send] failed", error);
-    return NextResponse.json({ error: "Failed to send email" }, { status: 500 });
-  }
+  return NextResponse.json({ draft: updated, recipients });
 }

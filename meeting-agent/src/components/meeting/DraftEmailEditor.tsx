@@ -61,8 +61,16 @@ export function DraftEmailEditor({
         const data = await res.json().catch(() => ({}));
         throw new Error(data.error || "send failed");
       }
-      const data = await res.json();
+      const data: { draft: NonNullable<Draft>; recipients: string[] } = await res.json();
       setDraft(data.draft);
+
+      // The app only requests read-only Gmail access, so it can't send on
+      // the user's behalf via the API - hand off to their own mail client
+      // with everything pre-filled instead.
+      const mailto = `mailto:${data.recipients.join(",")}?subject=${encodeURIComponent(
+        subject
+      )}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailto;
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to send email.");
     } finally {
@@ -105,17 +113,22 @@ export function DraftEmailEditor({
       {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
 
       {!isSent && (
-        <div className="mt-4 flex items-center gap-2">
-          <Button onClick={send} disabled={sending || saving}>
-            {sending && <Spinner className="h-4 w-4" />}
-            Send email
-          </Button>
-          <Button variant="secondary" onClick={save} disabled={sending || saving}>
-            {saving && <Spinner className="h-4 w-4" />}
-            Save draft
-          </Button>
-          {savedRecently && <span className="text-xs text-slate-400">Saved</span>}
-        </div>
+        <>
+          <div className="mt-4 flex items-center gap-2">
+            <Button onClick={send} disabled={sending || saving}>
+              {sending && <Spinner className="h-4 w-4" />}
+              Send via email client
+            </Button>
+            <Button variant="secondary" onClick={save} disabled={sending || saving}>
+              {saving && <Spinner className="h-4 w-4" />}
+              Save draft
+            </Button>
+            {savedRecently && <span className="text-xs text-slate-400">Saved</span>}
+          </div>
+          <p className="mt-2 text-xs text-slate-400">
+            Opens this email in your default mail app, addressed and ready to send.
+          </p>
+        </>
       )}
     </Card>
   );
